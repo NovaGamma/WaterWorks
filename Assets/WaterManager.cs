@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using static Pipe;
 using static PipeData;
-using static Point;
+using static Intersection;
 
 public class NewBehaviourScript : MonoBehaviour
 {
@@ -29,8 +29,8 @@ public class NewBehaviourScript : MonoBehaviour
         foreach(Pipe pipe in pipes) {
             List<Pipe> neighbors = pipe.GetNeighbors();
             foreach(Pipe neighbor in neighbors){
-                Point selfDifferentPoint = pipe.points.Except(neighbor.points).First();
-                Point neighborDifferentPoint = neighbor.points.Except(pipe.points).First();
+                Intersection selfDifferentPoint = pipe.intersections.Except(neighbor.intersections).First();
+                Intersection neighborDifferentPoint = neighbor.intersections.Except(pipe.intersections).First();
                 int heightCoefficent = (int) neighborDifferentPoint.gameObject.transform.position.y - (int) selfDifferentPoint.gameObject.transform.position.y;
                 if (pipe.effectiveVolume > neighbor.effectiveVolume && heightCoefficent == 0){
                     int result = (pipe.effectiveVolume - neighbor.effectiveVolume) / (neighbors.Count() + 1);
