@@ -24,6 +24,34 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
+    int OverflowSystem(int addedQuantity, Intersection origin, Pipe pipe) {
+        if (pipe.effectiveVolume + addedQuantity <= pipe.maxVolume) {
+            pipe.effectiveVolume += addedQuantity;
+            return 0;
+        } else if (pipe.effectiveVolume < pipe.maxVolume) {
+            addedQuantity = pipe.effectiveVolume + addedQuantity % pipe.maxVolume;
+            pipe.effectiveVolume = pipe.maxVolume;
+            if (addedQuantity == 0) {
+                return 0;
+            }
+        }
+        Intersection otherIntersection = pipe.intersections[0] == origin ? pipe.intersections[0] : pipe.intersections[1];
+        List<Pipe> neighbors =  (List<Pipe>) (from p in otherIntersection.pipes where p != pipe select p);
+        while (addedQuantity > 0 && neighbors.Count() > 0){
+            List<(Pipe, int)> map = new List<(Pipe, int)>();
+            foreach (Pipe neighbor in neighbors) {
+                map.Add((neighbor, OverflowSystem(addedQuantity / neighbors.Count(), otherIntersection, neighbor)));
+            }
+            neighbors = (List<Pipe>) (from data in map where data.Item2 == 0 select data.Item1);
+            int remainingQuantity = 0;
+            foreach ((Pipe neighbor, int remaining) in map) {
+                remainingQuantity += remaining;
+            }
+            addedQuantity = remainingQuantity;
+        }
+        return addedQuantity;
+    }
+
     void SmoothingSystem() {
         List<PipeData> copy = this.CopyPipesData();
         foreach(Pipe pipe in pipes) {
