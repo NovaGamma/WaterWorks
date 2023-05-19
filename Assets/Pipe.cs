@@ -23,7 +23,7 @@ public class Pipe : MonoBehaviour
     {
         
     }
-    
+
     public List<Pipe> GetNeighbors() {
         List<Pipe> neighbors = new List<Pipe>();
         foreach(Intersection intersection in this.intersections){
