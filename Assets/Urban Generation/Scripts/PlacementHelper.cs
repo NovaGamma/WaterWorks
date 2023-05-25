@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,5 +25,23 @@ public static class PlacementHelper
                 neighbourDirections.Add(Direction.Down);
             }
             return neighbourDirections;
+    }
+
+    internal static Vector3Int GetOffsetFromDirection(Direction direction)
+    {
+        switch (direction)
+        {
+            case Direction.Up:
+                return Vector3Int.forward;
+            case Direction.Down:
+                return Vector3Int.back;
+            case Direction.Left:
+                return Vector3Int.left;
+            case Direction.Right:
+                return Vector3Int.right;
+            default: 
+                break;
+        }
+        throw new System.Exception("No direction such as " + direction);
     }
 }
