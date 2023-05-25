@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,20 +11,23 @@ public class Visualizer : MonoBehaviour
     private int length = 8;
     private float angle = 90;
 
-    public int Length 
-    { 
+    public int Length
+    {
         get
         {
-            if(length > 0){
+            if (length > 0)
+            {
                 return length;
-            }else{
+            }
+            else
+            {
                 return 1;
             }
-        } 
-        set => length = value; 
+        }
+        set => length = value;
     }
 
-    private void Start() 
+    private void Start()
     {
         var sequence = lsystem.GenerateSentence();
         VisualizeSequence(sequence);
@@ -33,7 +35,7 @@ public class Visualizer : MonoBehaviour
 
     private void VisualizeSequence(string sequence)
     {
-        Stack<AgentParameters> savePoints = new Stack<AgentParameters>(); // Last in First out
+        Stack<AgentParameters> savePoints = new Stack<AgentParameters>();
         var currentPosition = Vector3.zero;
 
         Vector3 direction = Vector3.forward;
@@ -55,18 +57,21 @@ public class Visualizer : MonoBehaviour
                     });
                     break;
                 case EncodingLetters.load:
-                    if(savePoints.Count > 0){
+                    if (savePoints.Count > 0)
+                    {
                         var agentParameter = savePoints.Pop();
                         currentPosition = agentParameter.position;
                         direction = agentParameter.direction;
                         Length = agentParameter.length;
-                    }else{
-                        throw new System.Exception("Don't have saved point in our stack");
+                    }
+                    else
+                    {
+                        throw new System.Exception("Dont have saved point in our stack");
                     }
                     break;
                 case EncodingLetters.draw:
                     tempPosition = currentPosition;
-                    currentPosition += direction * Length;
+                    currentPosition += direction * length;
                     roadHelper.PlaceStreetPositions(tempPosition, Vector3Int.RoundToInt(direction), length);
                     Length -= 2;
                     positions.Add(currentPosition);
@@ -81,6 +86,7 @@ public class Visualizer : MonoBehaviour
                     break;
             }
         }
+        roadHelper.FixRoad();
     }
 
     public enum EncodingLetters
@@ -93,3 +99,4 @@ public class Visualizer : MonoBehaviour
         turnLeft = '-'
     }
 }
+
