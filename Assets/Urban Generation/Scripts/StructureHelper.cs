@@ -11,9 +11,24 @@ public class StructureHelper : MonoBehaviour
     public void PlaceStructureAroundRoad(List<Vector3Int> roadPositions)
     {
         Dictionary<Vector3Int, Direction> freeEstateSpots = FindFreeSpacesAroundRoad(roadPositions);
-        foreach (var position in freeEstateSpots.Keys)
+        foreach (var freeSpot in freeEstateSpots)
         {
-            Instantiate(prefab, position, Quaternion.identity, transform);
+            var rotation = Quaternion.identity;
+            switch (freeSpot.Value) // All house must point to the left
+            {
+                case Direction.Up:
+                    rotation = Quaternion.Euler(0, 90, 0);
+                    break;
+                case Direction.Down:
+                    rotation = Quaternion.Euler(0, -90, 0);
+                    break;
+                case Direction.Right:
+                    rotation = Quaternion.Euler(0, 180, 0);
+                    break;
+                default: 
+                    break;
+            }
+            Instantiate(prefab, freeSpot.Key, rotation, transform);
         }
     }
 
@@ -32,7 +47,7 @@ public class StructureHelper : MonoBehaviour
                     {
                         continue;
                     }
-                    freeSpaces.Add(newPosition, Direction.Right);
+                    freeSpaces.Add(newPosition, PlacementHelper.GetReverseDirection(direction));
                 }
             }
         }
