@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class StructureHelper : MonoBehaviour
@@ -119,7 +120,7 @@ public class StructureHelper : MonoBehaviour
                 if(neighbourDirections.Contains(direction) == false)
                 {
                     var newPosition = position + PlacementHelper.GetOffsetFromDirection(direction);
-                    if(freeSpaces.ContainsKey(newPosition))
+                    if(freeSpaces.ContainsKey(newPosition) || structureDictionary.ContainsKey(newPosition))
                     {
                         continue;
                     }

@@ -9,7 +9,7 @@ public class Visualizer : MonoBehaviour
     public RoadHelper roadHelper;
     public StructureHelper structureHelper;
 
-    private int length = 8;
+    private int length = 10;
     private float angle = 90;
 
     public int Length
@@ -30,14 +30,25 @@ public class Visualizer : MonoBehaviour
 
     private void Start()
     {
-        var sequence = lsystem.GenerateSentence();
-        VisualizeSequence(sequence);
+        
     }
 
-    private void VisualizeSequence(string sequence)
+    private void Update() {
+
+        if (Input.GetMouseButtonDown(0)) {
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+            if (Physics.Raycast(ray, out hit)) {
+                var sequence = lsystem.GenerateSentence();
+                length = 10;
+                VisualizeSequence(sequence, hit.point);
+            }
+        }
+    }
+
+    private void VisualizeSequence(string sequence, Vector3 currentPosition)
     {
         Stack<AgentParameters> savePoints = new Stack<AgentParameters>();
-        var currentPosition = Vector3.zero;
 
         Vector3 direction = Vector3.forward;
         Vector3 tempPosition = Vector3.zero;
@@ -73,7 +84,7 @@ public class Visualizer : MonoBehaviour
                 case EncodingLetters.draw:
                     tempPosition = currentPosition;
                     currentPosition += direction * length;
-                    roadHelper.PlaceStreetPositions(tempPosition, Vector3Int.RoundToInt(direction), length);
+                    roadHelper.PlaceStreetPositions(tempPosition, Vector3Int.RoundToInt(direction), length, ref structureHelper.structureDictionary);
                     Length -= 2;
                     positions.Add(currentPosition);
                     break;
