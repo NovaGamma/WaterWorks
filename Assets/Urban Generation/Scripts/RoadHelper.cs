@@ -13,7 +13,7 @@ public class RoadHelper : MonoBehaviour
         return roadDictionary.Keys.ToList();
     }
 
-    public void PlaceStreetPositions(Vector3 startPosition, Vector3Int direction, int length)
+    public void PlaceStreetPositions(Vector3 startPosition, Vector3Int direction, int length, ref Dictionary<Vector3Int, GameObject> structureDictionary)
     {
         var rotation = Quaternion.identity;
         if(direction.x == 0)
@@ -26,6 +26,11 @@ public class RoadHelper : MonoBehaviour
             if (roadDictionary.ContainsKey(position))
             {
                 continue;
+            }
+            if (structureDictionary.ContainsKey(position))
+            {
+                Destroy(structureDictionary[position]);
+                structureDictionary.Remove(position);
             }
             var road = Instantiate(roadStraight, position, rotation, transform);
             roadDictionary.Add(position, road);
