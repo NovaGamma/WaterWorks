@@ -6,10 +6,11 @@ using static Pipe;
 using static PipeData;
 using static Intersection;
 
-public class NewBehaviourScript : MonoBehaviour
+public class WaterManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    List<Pipe> pipes = new List<Pipe>();
+    public PipeManager pipeManager;
+    List<Pipe> pipes;
 
     void Start()
     {
@@ -19,6 +20,7 @@ public class NewBehaviourScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        pipes = pipeManager.pipes;
         for(int i=0; i<10; i++){
             this.SmoothingSystem();
         }

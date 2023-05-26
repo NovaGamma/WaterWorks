@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PipeData : MonoBehaviour
+public class PipeData
 {
     public int maxVolume;
     public int effectiveVolume;

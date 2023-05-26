@@ -11,11 +11,11 @@ public class Pipe : MonoBehaviour
     public List<Intersection> intersections = new List<Intersection>();
     // Start is called before the first frame update
     public Pipe(){
-
+        
     }
     void Start()
     {
-        
+        this.maxVolume = 100;
     }
 
     // Update is called once per frame
