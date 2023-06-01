@@ -384,7 +384,6 @@ GameObject:
   m_Component:
   - component: {fileID: 819927147}
   - component: {fileID: 819927146}
-  - component: {fileID: 819927148}
   m_Layer: 0
   m_Name: Visualizer
   m_TagString: Untagged
@@ -425,18 +424,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &819927148
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 819927145}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4fd80f217260a48418654fa0e979f585, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1163361562
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,23 +505,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingTypes:
   - prefabs:
-    - {fileID: 7275054249328351515, guid: 2a21786056cffcc4d831fc56aec86ad5, type: 3}
+    - {fileID: 5287067506675770064, guid: 6fdac174aa22b4d4ea1df3c83529afbc, type: 3}
     sizeRequired: {x: 2, y: 3}
     quantity: 3
     quantityAlreadyPlaced: 0
   - prefabs:
-    - {fileID: 7812286709392755319, guid: fa1f072f010821a4b9f56ae5e9304fa4, type: 3}
+    - {fileID: 8933733874500520476, guid: 187251d408cca6a46b7605ca0332131b, type: 3}
     sizeRequired: {x: 3, y: 1}
     quantity: 3
     quantityAlreadyPlaced: 0
   - prefabs:
-    - {fileID: 348023179913759447, guid: 59c867ed36c67c54aa1dac8412d8d74c, type: 3}
-    sizeRequired: {x: 2, y: 1}
+    - {fileID: 4795629779766158191, guid: 0f1a404045d93c2449491ae77ed56b03, type: 3}
+    sizeRequired: {x: 1, y: 2}
     quantity: 5
     quantityAlreadyPlaced: 0
   - prefabs:
-    - {fileID: 3717028999998363500, guid: 302d778b08d194a4f86e69212cb501ea, type: 3}
-    - {fileID: 1465301054885232170, guid: 44af66725b8c82b4bb89b3b4321e38c4, type: 3}
+    - {fileID: 9196865271193152907, guid: 8dfc896f8e7314047afb3ac09c5ad260, type: 3}
+    - {fileID: 2879203321486406516, guid: 97ee88a2eb3d227439dd35028b25f566, type: 3}
     sizeRequired: {x: 1, y: 1}
     quantity: -1
     quantityAlreadyPlaced: 0
