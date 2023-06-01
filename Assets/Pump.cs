@@ -24,14 +24,17 @@ public class Pump : MonoBehaviour
     public int OverflowSystem(int addedQuantity, Intersection origin, Pipe pipe) {
         if (pipe.effectiveVolume + addedQuantity <= pipe.maxVolume) {
             pipe.effectiveVolume += addedQuantity;
+            Debug.Log("Used all added water " + pipe);
             return 0;
         } else if (pipe.effectiveVolume < pipe.maxVolume) {
-            addedQuantity = pipe.effectiveVolume + addedQuantity % pipe.maxVolume;
+            addedQuantity = (pipe.effectiveVolume + addedQuantity) % pipe.maxVolume;
             pipe.effectiveVolume = pipe.maxVolume;
             if (addedQuantity == 0) {
+                Debug.Log("Filled "+ pipe);
                 return 0;
             }
         }
+        Debug.Log(addedQuantity + "water units to add");
         Intersection otherIntersection = pipe.intersections[0] == origin ? pipe.intersections[0] : pipe.intersections[1];
         List<Pipe> neighbors = new List<Pipe>();
         foreach(Pipe p in otherIntersection.pipes){
