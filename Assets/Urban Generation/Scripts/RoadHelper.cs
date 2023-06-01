@@ -23,10 +23,12 @@ public class RoadHelper : MonoBehaviour
         for (int i = 0; i < length; i++)
         {
             var position = Vector3Int.RoundToInt(startPosition + direction *i);
+            // Special case to avoid adding an existing.
             if (roadDictionary.ContainsKey(position))
             {
                 continue;
             }
+            // Special case to destroy a building.
             if (structureDictionary.ContainsKey(position))
             {
                 Destroy(structureDictionary[position]);
@@ -34,15 +36,18 @@ public class RoadHelper : MonoBehaviour
             }
             var road = Instantiate(roadStraight, position, rotation, transform);
             roadDictionary.Add(position, road);
-            if(i==0 || i == length - 1)
-            {
-                fixRoadCandidates.Add(position);
-            }
         }
     }
 
-    public void FixRoad()
+    public void FixRoad(LSystemGenerator lSystem, RoadHelper roadHelper, StructureHelper structureHelper, PipeManager pipeManager)
     {
+        foreach (Vector3Int key in roadDictionary.Keys)
+        {
+            if(key == Vector3Int.zero){
+                continue;
+            }
+            fixRoadCandidates.Add(key);
+        }
         foreach (var position in fixRoadCandidates)
         {
             List<Direction> neighbourDirections = PlacementHelper.FindNeighbour(position, roadDictionary.Keys);
@@ -52,29 +57,49 @@ public class RoadHelper : MonoBehaviour
             if (neighbourDirections.Count == 1)
             {
                 Destroy(roadDictionary[position]);
+                Direction blockedDirection = Direction.Right;
+                Vector3 visualizerPosition = position + Vector3.left;
                 if (neighbourDirections.Contains(Direction.Down))
                 {
                     rotation = Quaternion.Euler(0, 90, 0);
+                    blockedDirection = Direction.Down;
+                    visualizerPosition = position + Vector3.forward;
                 } else if (neighbourDirections.Contains(Direction.Left))
                 {
                     rotation = Quaternion.Euler(0, 180, 0);
+                    blockedDirection = Direction.Left;
+                    visualizerPosition = position + Vector3.right;
                 }
                 else if (neighbourDirections.Contains(Direction.Up))
                 {
                     rotation = Quaternion.Euler(0, -90, 0);
+                    blockedDirection = Direction.Up;
+                    visualizerPosition = position + Vector3.back;
                 }
                 roadDictionary[position] = Instantiate(roadEnd, position, rotation, transform);
+                Visualizer visualizerRoadEnd = roadDictionary[position].GetComponent<Visualizer>();
+                visualizerRoadEnd.lsystem = lSystem;
+                visualizerRoadEnd.roadHelper = roadHelper;
+                visualizerRoadEnd.structureHelper = structureHelper;
+                visualizerRoadEnd.pipeManager = pipeManager;
+                visualizerRoadEnd.startingPosition = visualizerPosition;
+                visualizerRoadEnd.blockedDirections.Add(blockedDirection);
             }
             else if (neighbourDirections.Count == 2)
             {
-                if(
-                    neighbourDirections.Contains(Direction.Up) && neighbourDirections.Contains(Direction.Down)
-                    || neighbourDirections.Contains(Direction.Right) && neighbourDirections.Contains(Direction.Left)
-                    )
+                Destroy(roadDictionary[position]);
+                if(neighbourDirections.Contains(Direction.Up) && neighbourDirections.Contains(Direction.Down))
                 {
+                    rotation = Quaternion.Euler(0, 90, 0);
+                    roadDictionary[position] = Instantiate(roadStraight, position, rotation, transform);
                     continue;
                 }
-                Destroy(roadDictionary[position]);
+                if (neighbourDirections.Contains(Direction.Right) && neighbourDirections.Contains(Direction.Left))
+                {
+                    rotation = Quaternion.identity;
+                    roadDictionary[position] = Instantiate(roadStraight, position, rotation, transform);
+                    continue;
+                }
                 if (neighbourDirections.Contains(Direction.Up) && neighbourDirections.Contains(Direction.Right))
                 {
                     rotation = Quaternion.Euler(0, 90, 0);
@@ -119,6 +144,20 @@ public class RoadHelper : MonoBehaviour
                 roadDictionary[position] = Instantiate(road4way, position, rotation, transform);
             }
         }
+    }
+
+    public bool CheckPositionIsInsideCollider(Vector3 position)
+    {
+        var collidersObj = gameObject.GetComponentsInChildren<BoxCollider>();
+        for (var index = 0; index < collidersObj.Length; index++)
+        {
+            var colliderItem = collidersObj[index];
+            if(colliderItem.bounds.Contains(position))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

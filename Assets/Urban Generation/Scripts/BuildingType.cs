@@ -6,7 +6,7 @@ public class BuildingType
 {
     [SerializeField]
     private GameObject[] prefabs;
-    public int sizeRequired;
+    public Vector2 sizeRequired;
     public int quantity;
     public int quantityAlreadyPlaced;
 
@@ -23,7 +23,11 @@ public class BuildingType
 
     public bool IsBuildingAvailable()
     {
-        return quantityAlreadyPlaced < quantity;
+        if(quantity == -1){
+            return true;
+        }else{
+            return quantityAlreadyPlaced < quantity;
+        }
     }
 
     public void Reset()

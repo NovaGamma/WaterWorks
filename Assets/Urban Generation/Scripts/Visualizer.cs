@@ -4,13 +4,17 @@ using UnityEngine;
 public class Visualizer : MonoBehaviour
 {
     public LSystemGenerator lsystem;
-    List<Vector3> positions = new List<Vector3>();
-
+    public PipeManager pipeManager;
     public RoadHelper roadHelper;
     public StructureHelper structureHelper;
 
-    private int length = 10;
+    public List<Direction> blockedDirections;
+
+    private int length = 8;
     private float angle = 90;
+    private int maxSpawnLength;
+
+    public Vector3 startingPosition;
 
     public int Length
     {
@@ -30,30 +34,88 @@ public class Visualizer : MonoBehaviour
 
     private void Start()
     {
-        
+        maxSpawnLength = Length * 2 * lsystem.iterationLimit;
     }
 
     private void Update() {
+        int randomIndex = UnityEngine.Random.Range(1, 4);
+        var sequence = lsystem.GenerateSentence();
+        if(randomIndex == 1 && !blockedDirections.Contains(Direction.Up)){
+            CheckAndVisualize(sequence, startingPosition, Direction.Up);
+        }
+        if(randomIndex == 2 && !blockedDirections.Contains(Direction.Down)){
+            CheckAndVisualize(sequence, startingPosition, Direction.Down);
+        }
+        if(randomIndex == 3 && !blockedDirections.Contains(Direction.Right)){
+            CheckAndVisualize(sequence, startingPosition, Direction.Right);
+        }
+        if(randomIndex == 4 && !blockedDirections.Contains(Direction.Left)){
+            CheckAndVisualize(sequence, startingPosition, Direction.Left);
+        }      
+    }
 
-        if (Input.GetMouseButtonDown(0)) {
-            RaycastHit hit;
-            Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-            if (Physics.Raycast(ray, out hit)) {
-                var sequence = lsystem.GenerateSentence();
-                length = 10;
-                VisualizeSequence(sequence, hit.point);
-            }
+    private void CheckAndVisualize(string sequence, Vector3 position, Direction direction)
+    {
+        if(CheckIfInFreeZone(position, direction))
+        {
+            VisualizeSequence(sequence, position, DirectionHelper.GetOffsetFromDirection(direction));
+            blockedDirections.Add(direction);
         }
     }
 
-    private void VisualizeSequence(string sequence, Vector3 currentPosition)
+    private bool CheckIfInFreeZone(Vector3 position, Direction direction){
+        Vector3[] offsets = CreateDirectionnalOffsets(position, maxSpawnLength, direction);
+        return 
+            pipeManager.CheckPositionIsInsideCollider(offsets[0]) &&
+            pipeManager.CheckPositionIsInsideCollider(offsets[1]) &&
+            pipeManager.CheckPositionIsInsideCollider(offsets[2]) &&
+            pipeManager.CheckPositionIsInsideCollider(offsets[3]);
+    }
+
+    private Vector3[] CreateDirectionnalOffsets(Vector3 position, int length, Direction direction)
+    {
+        Vector3[] offsets = new Vector3[4];
+        switch (direction)
+        {
+             case Direction.Left:
+                offsets[0] = position + new Vector3(-length, 0f, -length);
+                offsets[1] = position + new Vector3(-length, 0f, length);
+                offsets[2] = position + new Vector3(0f, 0f, -length);
+                offsets[3] = position + new Vector3(0f, 0f, length);
+                break;
+
+            case Direction.Right:
+                offsets[0] = position + new Vector3(length, 0f, -length);
+                offsets[1] = position + new Vector3(length, 0f, length);
+                offsets[2] = position + new Vector3(0f, 0f, -length);
+                offsets[3] = position + new Vector3(0f, 0f, length);
+                break;
+
+            case Direction.Down:
+                offsets[0] = position + new Vector3(-length, 0f, 0f);
+                offsets[1] = position + new Vector3(length, 0f, 0f);
+                offsets[2] = position + new Vector3(length, 0f, -length);
+                offsets[3] = position + new Vector3(-length, 0f, -length);
+                break;
+
+            case Direction.Up:
+                offsets[0] = position + new Vector3(-length, 0f, 0f);
+                offsets[1] = position + new Vector3(length, 0f, 0f);
+                offsets[2] = position + new Vector3(length, 0f, length);
+                offsets[3] = position + new Vector3(-length, 0f, length);
+                break;
+            default:
+                Debug.LogError("Invalid direction specified.");
+                break;
+        }
+        return offsets;
+    }
+
+    private void VisualizeSequence(string sequence, Vector3 currentPosition, Vector3 direction)
     {
         Stack<AgentParameters> savePoints = new Stack<AgentParameters>();
 
-        Vector3 direction = Vector3.forward;
         Vector3 tempPosition = Vector3.zero;
-
-        positions.Add(currentPosition);
 
         foreach (var letter in sequence)
         {
@@ -85,8 +147,6 @@ public class Visualizer : MonoBehaviour
                     tempPosition = currentPosition;
                     currentPosition += direction * length;
                     roadHelper.PlaceStreetPositions(tempPosition, Vector3Int.RoundToInt(direction), length, ref structureHelper.structureDictionary);
-                    Length -= 2;
-                    positions.Add(currentPosition);
                     break;
                 case EncodingLetters.turnRight:
                     direction = Quaternion.AngleAxis(angle, Vector3.up) * direction;
@@ -98,7 +158,7 @@ public class Visualizer : MonoBehaviour
                     break;
             }
         }
-        roadHelper.FixRoad();
+        roadHelper.FixRoad(lsystem, roadHelper, structureHelper, pipeManager);
         structureHelper.PlaceStructureAroundRoad(roadHelper.GetRoadPositions());
     }
 
