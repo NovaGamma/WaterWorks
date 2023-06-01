@@ -36,22 +36,19 @@ public class StructureHelper : MonoBehaviour
             }
             for (int i = 0; i < buildingTypes.Length; i++)
             {
-                if(buildingTypes[i].quantity == -1)
-                {
-                    var building = SpawnPrefab(buildingTypes[i].GetPrefab(), freeSpot.Key, rotation);
-                    structureDictionary.Add(freeSpot.Key, building);
-                    break;
-                }
                 if(buildingTypes[i].IsBuildingAvailable())
                 {
-                    if (buildingTypes[i].sizeRequired > 1)
+                    if (buildingTypes[i].sizeRequired.x > 1)
                     {
-                        var halfSize = Mathf.FloorToInt(buildingTypes[i].sizeRequired / 2.0f);
+                        var halfSizeLength = Mathf.FloorToInt(buildingTypes[i].sizeRequired.x / 2.0f);
+                        var halfSizeWidth = Mathf.FloorToInt(buildingTypes[i].sizeRequired.y / 2.0f);
                         List<Vector3Int> tempPositionsBlocked = new List<Vector3Int>();
-                        if(VerifyIfBuildingFits(halfSize, freeEstateSpots, freeSpot, blockedPositions, ref tempPositionsBlocked))
+                        if(VerifyIfBuildingFits(halfSizeLength, halfSizeWidth, freeEstateSpots, freeSpot, blockedPositions, ref tempPositionsBlocked))
                         {
                             blockedPositions.AddRange(tempPositionsBlocked);
-                            var building = SpawnPrefab(buildingTypes[i].GetPrefab(), freeSpot.Key, rotation);
+                            var building = SpawnPrefab(buildingTypes[i].GetPrefab(), 
+                                                        freeSpot.Key - DirectionHelper.GetOffsetFromDirection(freeSpot.Value) * halfSizeWidth, 
+                                                        rotation);
                             structureDictionary.Add(freeSpot.Key, building);
                             foreach(var pos in tempPositionsBlocked)
                             {
@@ -73,7 +70,8 @@ public class StructureHelper : MonoBehaviour
     }
 
     private bool VerifyIfBuildingFits(
-        int halfSize, 
+        int halfSizeLength, 
+        int halfSizeWidth,
         Dictionary<Vector3Int, Direction> freeEstateSpots, 
         KeyValuePair<Vector3Int, Direction> freeSpot, 
         List<Vector3Int> blockedPositions,
@@ -88,12 +86,31 @@ public class StructureHelper : MonoBehaviour
         {
             direction = Vector3Int.forward;
         }
-        for (int i = 1; i <= halfSize; i++)
+        for (int i = 1; i <= halfSizeLength; i++)
         {
             var pos1 = freeSpot.Key + direction * i;
             var pos2 = freeSpot.Key - direction * i;
             if(!freeEstateSpots.ContainsKey(pos1) || !freeEstateSpots.ContainsKey(pos2) || 
                 blockedPositions.Contains(pos1) || blockedPositions.Contains(pos2))
+            {
+                return false;
+            }
+            tempPositionsBlocked.Add(pos1);
+            tempPositionsBlocked.Add(pos2);
+        }
+        if(freeSpot.Value == Direction.Down || freeSpot.Value == Direction.Up)
+        {
+            direction = Vector3Int.forward;
+        }
+        else
+        {
+            direction = Vector3Int.right;
+        }
+        for (int i = 1; i <= halfSizeWidth; i++)
+        {
+            var pos1 = freeSpot.Key + direction * i;
+            var pos2 = freeSpot.Key - direction * i;
+            if(blockedPositions.Contains(pos1) || blockedPositions.Contains(pos2))
             {
                 return false;
             }
@@ -119,7 +136,7 @@ public class StructureHelper : MonoBehaviour
             {
                 if(neighbourDirections.Contains(direction) == false)
                 {
-                    var newPosition = position + PlacementHelper.GetOffsetFromDirection(direction);
+                    var newPosition = position + DirectionHelper.GetOffsetFromDirection(direction);
                     if(freeSpaces.ContainsKey(newPosition) || structureDictionary.ContainsKey(newPosition))
                     {
                         continue;

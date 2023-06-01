@@ -1,16 +1,19 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SimpleVisualizer : MonoBehaviour
 {
     public LSystemGenerator lsystem;
+    public PipeManager pipeManager;
     List<Vector3> positions = new List<Vector3>();
     public GameObject prefab;
     public Material lineMaterial;
 
     private int length = 8;
-    private float angle = 70;
+    private int maxSpawnLength;
+    private float angle = 90;
 
     public int Length 
     { 
@@ -27,19 +30,80 @@ public class SimpleVisualizer : MonoBehaviour
 
     private void Start() 
     {
-        var sequence = lsystem.GenerateSentence();
-        VisualizeSequence(sequence);
+        maxSpawnLength = length * 2 * lsystem.iterationLimit;
+        var currentPosition = Vector3.zero;
+        positions.Add(currentPosition);
     }
 
-    private void VisualizeSequence(string sequence)
+    private void Update() {
+        var sequence = lsystem.GenerateSentence();
+        Debug.Log("Vérification position : " + positions[positions.Count - 1]);
+        CheckAndVisualize(sequence, Direction.Up, Vector3.forward);
+    }
+
+    private void CheckAndVisualize(string sequence, Direction direction, Vector3 vectorDirection)
+    {
+        if(CheckIfInFreeZone(positions[positions.Count - 1], direction))
+        {
+            VisualizeSequence(sequence, positions[positions.Count - 1], vectorDirection);
+        }
+    }
+
+    private bool CheckIfInFreeZone(Vector3 position, Direction direction){
+        Debug.Log("Vérification point de spawn : " + position + " " + pipeManager.CheckPositionIsInsideCollider(position));
+        Vector3[] offsets = CreateDirectionnalOffsets(position, maxSpawnLength, direction);
+
+        return 
+            pipeManager.CheckPositionIsInsideCollider(offsets[0]) &&
+            pipeManager.CheckPositionIsInsideCollider(offsets[1]) &&
+            pipeManager.CheckPositionIsInsideCollider(offsets[2]) &&
+            pipeManager.CheckPositionIsInsideCollider(offsets[3]);
+    }
+
+    private Vector3[] CreateDirectionnalOffsets(Vector3 position, int length, Direction direction)
+    {
+        Vector3[] offsets = new Vector3[4];
+        switch (direction)
+        {
+             case Direction.Left:
+                offsets[0] = position + new Vector3(-length, 0f, -length);
+                offsets[1] = position + new Vector3(-length, 0f, length);
+                offsets[2] = position + new Vector3(0f, 0f, -length);
+                offsets[3] = position + new Vector3(0f, 0f, length);
+                break;
+
+            case Direction.Right:
+                offsets[0] = position + new Vector3(length, 0f, -length);
+                offsets[1] = position + new Vector3(length, 0f, length);
+                offsets[2] = position + new Vector3(0f, 0f, -length);
+                offsets[3] = position + new Vector3(0f, 0f, length);
+                break;
+
+            case Direction.Down:
+                offsets[0] = position + new Vector3(-length, 0f, 0f);
+                offsets[1] = position + new Vector3(length, 0f, 0f);
+                offsets[2] = position + new Vector3(length, 0f, -length);
+                offsets[3] = position + new Vector3(-length, 0f, -length);
+                break;
+
+            case Direction.Up:
+                offsets[0] = position + new Vector3(-length, 0f, 0f);
+                offsets[1] = position + new Vector3(length, 0f, 0f);
+                offsets[2] = position + new Vector3(length, 0f, length);
+                offsets[3] = position + new Vector3(-length, 0f, length);
+                break;
+            default:
+                Debug.LogError("Invalid direction specified.");
+                break;
+        }
+        return offsets;
+    }
+
+    private void VisualizeSequence(string sequence, Vector3 currentPosition, Vector3 direction)
     {
         Stack<AgentParameters> savePoints = new Stack<AgentParameters>(); // Last in First out
-        var currentPosition = Vector3.zero;
 
-        Vector3 direction = Vector3.forward;
         Vector3 tempPosition = Vector3.zero;
-
-        positions.Add(currentPosition);
 
         foreach (var letter in sequence)
         {
@@ -68,7 +132,6 @@ public class SimpleVisualizer : MonoBehaviour
                     tempPosition = currentPosition;
                     currentPosition += direction * Length;
                     DrawLine(tempPosition, currentPosition, Color.red);
-                    Length -= 2;
                     positions.Add(currentPosition);
                     break;
                 case EncodingLetters.turnRight:
