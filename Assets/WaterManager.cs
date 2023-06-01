@@ -26,7 +26,7 @@ public class WaterManager : MonoBehaviour
         }
     }
 
-    int OverflowSystem(int addedQuantity, Intersection origin, Pipe pipe) {
+    public int OverflowSystem(int addedQuantity, Intersection origin, Pipe pipe) {
         if (pipe.effectiveVolume + addedQuantity <= pipe.maxVolume) {
             pipe.effectiveVolume += addedQuantity;
             return 0;

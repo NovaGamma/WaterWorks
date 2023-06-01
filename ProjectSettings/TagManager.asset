@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Pipe
   - Intersection
+  - Pump
   layers:
   - Default
   - TransparentFX

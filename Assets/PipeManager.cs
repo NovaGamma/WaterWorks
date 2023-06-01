@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using static Pipe;
-
 public class PipeManager : MonoBehaviour
 {
     public GameObject pipe;
