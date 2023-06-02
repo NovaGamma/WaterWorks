@@ -10,7 +10,7 @@ public class Visualizer : MonoBehaviour
 
     public List<Direction> blockedDirections;
 
-    private int length = 8;
+    private int length = 5;
     private float angle = 90;
     private int maxSpawnLength;
 

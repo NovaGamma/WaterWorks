@@ -9,12 +9,19 @@ public class Pipe : MonoBehaviour
     public int maxVolume;
     public int effectiveVolume;
     public List<Intersection> intersections = new List<Intersection>();
+    public Vector3 Position 
+    { 
+        get => transform.position; 
+    }
     // Start is called before the first frame update
     public Pipe(){
         
     }
     void Start()
     {
+        BoxCollider boxCollider = transform.gameObject.AddComponent<BoxCollider>();
+        boxCollider.size = new Vector3(30f, 2f, 30f);
+        boxCollider.enabled = false;
         this.maxVolume = 100;
     }
 

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6636556601494284247}
   - component: {fileID: 6636556601494284246}
   - component: {fileID: 6636556601494284233}
+  - component: {fileID: -3607139492674129148}
   m_Layer: 0
   m_Name: Pump
   m_TagString: Pump
@@ -112,3 +113,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   intersection: {fileID: 0}
+--- !u!114 &-3607139492674129148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6636556601494284232}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 090de30ea5c38984386da4eef56e01b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lsystem: {fileID: 0}
+  pipeManager: {fileID: 0}
+  roadHelper: {fileID: 0}
+  structureHelper: {fileID: 0}
+  blockedDirections: 
+  startingPosition: {x: 0, y: 0, z: 0}

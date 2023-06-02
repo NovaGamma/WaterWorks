@@ -230,9 +230,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 18557392}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2f799e1986b4384883623f55c159b5b, type: 3}
+  m_Script: {fileID: 11500000, guid: 7a4c26987eea8ee499239a338a6923cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxVolume: 0
+  effectiveVolume: 0
+  intersections: []
 --- !u!1 &367698984
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,11 +356,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 442219528}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1719c73df44a3b649bef03e1cd82d498, type: 3}
+  m_Script: {fileID: 11500000, guid: 352902971aa9b34458a1f89d8c72f3a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pipes:
-  - {fileID: 18557397}
+  pipe: {fileID: 7533103379373925314, guid: 49594266fdabd3b4e9acd6738526e320, type: 3}
+  pipes: []
+  intersection: {fileID: 2070403031101860431, guid: e28ad6b6cbf50654ab0d72d794232ba2, type: 3}
+  mouseClick: 0
+  firstClick: 0
 --- !u!4 &442219530
 Transform:
   m_ObjectHideFlags: 0
@@ -505,23 +511,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingTypes:
   - prefabs:
-    - {fileID: 5287067506675770064, guid: 6fdac174aa22b4d4ea1df3c83529afbc, type: 3}
+    - {fileID: 5287067506675770064, guid: ad7be9eb025bad3418adb2183d5a9de1, type: 3}
     sizeRequired: {x: 2, y: 3}
     quantity: 3
     quantityAlreadyPlaced: 0
   - prefabs:
-    - {fileID: 8933733874500520476, guid: 187251d408cca6a46b7605ca0332131b, type: 3}
+    - {fileID: 8933733874500520476, guid: eebdc3022b715ed4ba3ccd256639e99f, type: 3}
     sizeRequired: {x: 3, y: 1}
     quantity: 3
     quantityAlreadyPlaced: 0
   - prefabs:
-    - {fileID: 4795629779766158191, guid: 0f1a404045d93c2449491ae77ed56b03, type: 3}
+    - {fileID: 4795629779766158191, guid: fe30a14508b942f4d872e7c8e5028fca, type: 3}
     sizeRequired: {x: 1, y: 2}
     quantity: 5
     quantityAlreadyPlaced: 0
   - prefabs:
-    - {fileID: 9196865271193152907, guid: 8dfc896f8e7314047afb3ac09c5ad260, type: 3}
-    - {fileID: 2879203321486406516, guid: 97ee88a2eb3d227439dd35028b25f566, type: 3}
+    - {fileID: 2879203321486406516, guid: 64f7a8b022b5cef438dfd222d0005075, type: 3}
+    - {fileID: 9196865271193152907, guid: fc5d1f37a713dc74eaf09684a1976db9, type: 3}
     sizeRequired: {x: 1, y: 1}
     quantity: -1
     quantityAlreadyPlaced: 0

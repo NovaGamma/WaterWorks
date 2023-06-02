@@ -7,6 +7,7 @@ public class RoadHelper : MonoBehaviour
     public GameObject roadStraight, roadCorner, road3way, road4way, roadEnd;
     Dictionary<Vector3Int, GameObject> roadDictionary = new Dictionary<Vector3Int, GameObject>();
     HashSet<Vector3Int> fixRoadCandidates = new HashSet<Vector3Int>();
+    public PumpManager pumpManager;
 
     public List<Vector3Int> GetRoadPositions()
     {
@@ -43,7 +44,7 @@ public class RoadHelper : MonoBehaviour
     {
         foreach (Vector3Int key in roadDictionary.Keys)
         {
-            if(key == Vector3Int.zero){
+            if(pumpManager.GetPumpsPositions().Contains(key)){
                 continue;
             }
             fixRoadCandidates.Add(key);

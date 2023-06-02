@@ -106,4 +106,29 @@ public class PipeManager : MonoBehaviour
         Destroy(pipe);
         return newIntersection;
     }
+
+    public List<Pipe> GetPipes()
+    {
+        return pipes;
+    }
+
+    public bool CheckPositionIsInsideCollider(Vector3 position)
+    {
+        var collidersObj = gameObject.GetComponentsInChildren<BoxCollider>(true);
+        for (var index = 0; index < collidersObj.Length; index++)
+        {
+            var colliderItem = collidersObj[index];
+            if(!colliderItem.enabled){
+                colliderItem.enabled = true;
+                if(colliderItem.bounds.Contains(position))
+                {
+                    colliderItem.enabled = false;
+                    return true;
+                }else{
+                    colliderItem.enabled = false;
+                }
+                }
+        }
+        return false;
+    }
 }
