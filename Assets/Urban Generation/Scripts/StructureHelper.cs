@@ -15,7 +15,7 @@ public class StructureHelper : MonoBehaviour
         List<Vector3Int> blockedPositions = new List<Vector3Int>();
         foreach (var freeSpot in freeEstateSpots)
         {
-            if(blockedPositions.Contains(freeSpot.Key))
+            if(blockedPositions.Contains(freeSpot.Key) || !PlacementHelper.CheckIfPositionAvailable(freeSpot.Key))
             {
                 continue;
             }

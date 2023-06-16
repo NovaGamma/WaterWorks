@@ -116,6 +116,7 @@ public class Visualizer : MonoBehaviour
         Stack<AgentParameters> savePoints = new Stack<AgentParameters>();
 
         Vector3 tempPosition = Vector3.zero;
+        bool exitLoop = false;
 
         foreach (var letter in sequence)
         {
@@ -146,6 +147,14 @@ public class Visualizer : MonoBehaviour
                 case EncodingLetters.draw:
                     tempPosition = currentPosition;
                     currentPosition += direction * length;
+                    for (int i = 0; i < length; i++)
+                    {
+                        var position = Vector3Int.RoundToInt(tempPosition + Vector3Int.RoundToInt(direction) *i);
+                        if(!PlacementHelper.CheckIfPositionAvailable(position))
+                        {
+                            exitLoop = true;
+                        }
+                    }
                     roadHelper.PlaceStreetPositions(tempPosition, Vector3Int.RoundToInt(direction), length, ref structureHelper.structureDictionary);
                     break;
                 case EncodingLetters.turnRight:
@@ -157,6 +166,7 @@ public class Visualizer : MonoBehaviour
                 default:
                     break;
             }
+            if (exitLoop) break;
         }
         roadHelper.FixRoad(lsystem, roadHelper, structureHelper, pipeManager);
         structureHelper.PlaceStructureAroundRoad(roadHelper.GetRoadPositions());

@@ -7,6 +7,8 @@ TagManager:
   - Pipe
   - Intersection
   - Pump
+  - Water
+  - MapLimit
   layers:
   - Default
   - TransparentFX

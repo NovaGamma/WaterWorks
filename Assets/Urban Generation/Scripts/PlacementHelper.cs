@@ -44,4 +44,31 @@ public static class PlacementHelper
         }
         throw new System.Exception("No direction such as " + direction);
     }
+
+    public static bool CheckIfPositionInWater(Vector3 position)
+    {
+        GameObject[] waters = GameObject.FindGameObjectsWithTag("Water");
+        foreach (var gameObject in waters)
+        {
+            var colliderItem = gameObject.GetComponent<Collider>();
+            if(colliderItem.bounds.Contains(position)) return true;
+        }
+        return false;
+    }
+
+    public static bool CheckIfPositionOffLimit(Vector3 position)
+    {
+        GameObject[] mapLimits = GameObject.FindGameObjectsWithTag("MapLimit");
+        foreach (var gameObject in mapLimits)
+        {
+            var colliderItem = gameObject.GetComponent<Collider>();
+            if(colliderItem.bounds.Contains(position)) return true;
+        }
+        return false;
+    }
+
+    public static bool CheckIfPositionAvailable(Vector3 position)
+    {
+        return !(CheckIfPositionInWater(position) && CheckIfPositionOffLimit(position));
+    }
 }
