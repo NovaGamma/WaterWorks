@@ -169,7 +169,6 @@ public class Visualizer : MonoBehaviour
             if (exitLoop) break;
         }
         roadHelper.FixRoad(lsystem, roadHelper, structureHelper, pipeManager);
-        structureHelper.PlaceStructureAroundRoad(roadHelper.GetRoadPositions());
     }
 
     public enum EncodingLetters

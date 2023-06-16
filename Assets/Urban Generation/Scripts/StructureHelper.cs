@@ -6,8 +6,14 @@ using UnityEngine;
 
 public class StructureHelper : MonoBehaviour
 {
+    public PipeManager pipeManager;
+    public RoadHelper roadHelper;
     public BuildingType[] buildingTypes;
     public Dictionary<Vector3Int, GameObject> structureDictionary = new Dictionary<Vector3Int, GameObject>();
+
+    private void Update() {
+        PlaceStructureAroundRoad(roadHelper.GetRoadPositions());
+    }
 
     public void PlaceStructureAroundRoad(List<Vector3Int> roadPositions)
     {
@@ -124,6 +130,16 @@ public class StructureHelper : MonoBehaviour
     {
         var newStructure = Instantiate(prefab, position, rotation, transform);
         return newStructure;
+    }
+
+    public Pipe FindClosestPipe(Vector3 position)
+    {
+        List<Pipe> pipes = pipeManager.GetPipes();
+        if(pipes.Count == 0) return null;
+        // This orders the list so the closest object will be the very first entry
+        var sorted = pipes.OrderBy(obj => (position - transform.position).sqrMagnitude);
+        Pipe closest = sorted.First();
+        return closest;
     }
 
     private Dictionary<Vector3Int, Direction> FindFreeSpacesAroundRoad(List<Vector3Int> roadPositions)
