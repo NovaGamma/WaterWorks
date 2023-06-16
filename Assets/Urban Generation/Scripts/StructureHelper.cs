@@ -25,6 +25,7 @@ public class StructureHelper : MonoBehaviour
             {
                 continue;
             }
+            Pipe pipe = FindClosestPipe(freeSpot.Key);
             var rotation = Quaternion.identity;
             switch (freeSpot.Value) // All house must point to the left
             {
@@ -51,24 +52,28 @@ public class StructureHelper : MonoBehaviour
                         List<Vector3Int> tempPositionsBlocked = new List<Vector3Int>();
                         if(VerifyIfBuildingFits(halfSizeLength, halfSizeWidth, freeEstateSpots, freeSpot, blockedPositions, ref tempPositionsBlocked))
                         {
-                            blockedPositions.AddRange(tempPositionsBlocked);
-                            var building = SpawnPrefab(buildingTypes[i].GetPrefab(), 
-                                                        freeSpot.Key - DirectionHelper.GetOffsetFromDirection(freeSpot.Value) * halfSizeWidth, 
-                                                        rotation);
-                            structureDictionary.Add(freeSpot.Key, building);
-                            foreach(var pos in tempPositionsBlocked)
+                            if (pipe.houseSpawnAuthorized)
                             {
-                                structureDictionary.Add(pos, building);
+                                var building = SpawnPrefab(buildingTypes[i].GetPrefab(), 
+                                                            freeSpot.Key - DirectionHelper.GetOffsetFromDirection(freeSpot.Value) * halfSizeWidth, 
+                                                            rotation);
+                                building.GetComponent<House>().pipe = pipe;
+                                structureDictionary.Add(freeSpot.Key, building);
+                                blockedPositions.AddRange(tempPositionsBlocked);
+                                foreach(var pos in tempPositionsBlocked)
+                                {
+                                    structureDictionary.Add(pos, building);
+                                }
                             }
                             break;
                         }
                     }
                     else
                     {
-                        var pipe = FindClosestPipe(freeSpot.Key);
                         if (pipe.houseSpawnAuthorized)
                         {
                             var building = SpawnPrefab(buildingTypes[i].GetPrefab(), freeSpot.Key, rotation);
+                            building.GetComponent<House>().pipe = pipe;
                             structureDictionary.Add(freeSpot.Key, building);
                         }                        
                     }

@@ -73,4 +73,17 @@ public class Pipe : MonoBehaviour
     public PipeData ExportData() {
         return new PipeData(this.maxVolume, this.effectiveVolume, this.intersections, this.gameObject.GetInstanceID());
     }
+
+    // Return False if it couldn't consume
+    public bool ConsumeWater(int Amount)
+    {
+        if(effectiveVolume - Amount > 0)
+        {
+            effectiveVolume -= Amount;
+            return true;
+        }else
+        {
+            return false;
+        }
+    }
 }
