@@ -65,9 +65,12 @@ public class StructureHelper : MonoBehaviour
                     }
                     else
                     {
-                        var building = SpawnPrefab(buildingTypes[i].GetPrefab(), freeSpot.Key, rotation);
-                        structureDictionary.Add(freeSpot.Key, building);
-                        
+                        var pipe = FindClosestPipe(freeSpot.Key);
+                        if (pipe.houseSpawnAuthorized)
+                        {
+                            var building = SpawnPrefab(buildingTypes[i].GetPrefab(), freeSpot.Key, rotation);
+                            structureDictionary.Add(freeSpot.Key, building);
+                        }                        
                     }
                     break;
                 }
