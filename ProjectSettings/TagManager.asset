@@ -9,6 +9,7 @@ TagManager:
   - Pump
   - Water
   - MapLimit
+  - DirtyPipe
   layers:
   - Default
   - TransparentFX

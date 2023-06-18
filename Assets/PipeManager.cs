@@ -5,11 +5,14 @@ using System;
 public class PipeManager : MonoBehaviour
 {
     public GameObject pipe;
+    public GameObject dirtyPipe;
     public List<Pipe> pipes;
+    public List<Pipe> dirtyPipes;
     public GameObject intersection;
     public bool mouseClick = false;
     public RaycastHit click1;
     public bool firstClick = false;
+    public String type;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +31,11 @@ public class PipeManager : MonoBehaviour
                         this.click1 = hit;
                         this.firstClick = true;
                     } else {
-                        this.CreatePipe(this.click1, hit);
+                        if(this.type == "Pipe") {
+                            this.CreatePipe(this.click1, hit);
+                        } else {
+                            this.CreateDirtyPipe(this.click1, hit);
+                        }
                         this.mouseClick = false;
                         this.firstClick = false;
                     }
@@ -39,6 +46,16 @@ public class PipeManager : MonoBehaviour
 
     public void flipMouseClick() {
         this.mouseClick = !this.mouseClick;
+    }
+
+    public void activatePipe() {
+        this.flipMouseClick();
+        this.type = "Pipe";
+    }
+
+    public void activateDirtyPipe() {
+        this.flipMouseClick();
+        this.type = "DirtyPipe";
     }
 
     public void CreatePipe(RaycastHit fromRay, RaycastHit toRay) {
@@ -63,6 +80,54 @@ public class PipeManager : MonoBehaviour
         }
 
         InstantiatePipe(intersectionFrom, intersectionTo);
+    }
+
+    public void CreateDirtyPipe(RaycastHit fromRay, RaycastHit toRay) {
+        Vector3 from = fromRay.point;
+        Vector3 to = toRay.point;
+        GameObject intersectionFrom;
+        GameObject intersectionTo;
+        if (fromRay.collider.gameObject.tag == "Intersection") {
+            intersectionFrom = fromRay.collider.gameObject;
+        } else if (fromRay.collider.gameObject.tag == "DirtyPipe") {
+            intersectionFrom = SplitPipe(from, fromRay.collider.gameObject);
+        } else {
+            intersectionFrom = (GameObject) Instantiate (intersection, from, Quaternion.Euler (0,0,0), transform);
+        }
+
+        if (toRay.collider.gameObject.tag == "Intersection") {
+            intersectionTo = toRay.collider.gameObject;
+        } else if (toRay.collider.gameObject.tag == "DirtyPipe") {
+            intersectionTo = SplitPipe(to, toRay.collider.gameObject);
+        } else {
+            intersectionTo = (GameObject) Instantiate (intersection, to, Quaternion.Euler (0,0,0), transform);
+        }
+
+        InstantiateDirtyPipe(intersectionFrom, intersectionTo);
+    }
+
+    public GameObject InstantiateDirtyPipe(GameObject intersectionFrom, GameObject intersectionTo) {
+        Vector3 I1Center = intersectionFrom.transform.GetComponent<Collider>().bounds.center;
+        Vector3 I2Center = intersectionTo.transform.GetComponent<Collider>().bounds.center;
+
+        Vector3 AB = new Vector3(I1Center.x - I2Center.x, I1Center.y - I2Center.y, I1Center.z - I2Center.z);
+        Debug.Log(AB);
+        float alignment;
+        if(AB.x < 0) {
+            alignment = Vector3.Angle(AB, new Vector3(0,0,-1)) + 90;
+        } else {
+            AB = new Vector3(I2Center.x - I1Center.x, I2Center.y - I1Center.y, I2Center.z - I1Center.z);
+            alignment = Vector3.Angle(AB, new Vector3(0,0,-1)) + 90;
+        }
+        Debug.Log(alignment);
+        GameObject newPipe = (GameObject) Instantiate (dirtyPipe, Vector3.Lerp(I1Center, I2Center, 0.5f), Quaternion.Euler (0, alignment, 90), transform);
+        newPipe.transform.localScale += new Vector3(0, 1, 0) * Vector3.Distance(I1Center, I2Center) / 2;
+        newPipe.GetComponent<Pipe>().intersections.Add(intersectionFrom.GetComponent<Intersection>());
+        newPipe.GetComponent<Pipe>().intersections.Add(intersectionTo.GetComponent<Intersection>());
+        intersectionFrom.gameObject.GetComponent<Intersection>().pipes.Add(newPipe.GetComponent<Pipe>());
+        intersectionTo.gameObject.GetComponent<Intersection>().pipes.Add(newPipe.GetComponent<Pipe>());
+        dirtyPipes.Add(newPipe.GetComponent<Pipe>());
+        return newPipe;
     }
 
     public GameObject InstantiatePipe(GameObject intersectionFrom, GameObject intersectionTo) {
