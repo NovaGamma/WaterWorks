@@ -13,6 +13,7 @@ public class PipeManager : MonoBehaviour
     public RaycastHit click1;
     public bool firstClick = false;
     public String type;
+    public bool modifiedPipes = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -36,6 +37,7 @@ public class PipeManager : MonoBehaviour
                         } else {
                             this.CreateDirtyPipe(this.click1, hit);
                         }
+                        this.modifiedPipes = true;
                         this.mouseClick = false;
                         this.firstClick = false;
                     }
@@ -175,6 +177,11 @@ public class PipeManager : MonoBehaviour
     public List<Pipe> GetPipes()
     {
         return pipes;
+    }
+
+    public List<Pipe> GetDirtyPipes()
+    {
+        return dirtyPipes;
     }
 
     public bool CheckPositionIsInsideCollider(Vector3 position)

@@ -10,13 +10,27 @@ public class StructureHelper : MonoBehaviour
     public RoadHelper roadHelper;
     public BuildingType[] buildingTypes;
     public Dictionary<Vector3Int, GameObject> structureDictionary = new Dictionary<Vector3Int, GameObject>();
+    public int intervalSpawn = 1;
+    public float spawnTimer = 2.0f;
+    private float time = 0.0f;
 
     private void Update() {
-        PlaceStructureAroundRoad(roadHelper.GetRoadPositions());
+        
+        time += Time.deltaTime;
+        if(time >= spawnTimer){
+            PlaceStructureAroundRoad(roadHelper.GetRoadPositions());
+            time = 0.0f;
+        }
+        if(pipeManager.modifiedPipes)
+        {
+            Debug.Log("Updated pipes");
+            pipeManager.modifiedPipes = false;
+            Invoke("UpdateAllPipes", 1f);
+        }
     }
-
     public void PlaceStructureAroundRoad(List<Vector3Int> roadPositions)
     {
+        Debug.Log("Try to spawn a building");
         Dictionary<Vector3Int, Direction> freeEstateSpots = FindFreeSpacesAroundRoad(roadPositions);
         List<Vector3Int> blockedPositions = new List<Vector3Int>();
         foreach (var freeSpot in freeEstateSpots)
@@ -43,6 +57,7 @@ public class StructureHelper : MonoBehaviour
             }
             for (int i = 0; i < buildingTypes.Length; i++)
             {
+                Debug.Log("Check building type " + i);
                 if(buildingTypes[i].IsBuildingAvailable())
                 {
                     if (buildingTypes[i].sizeRequired.x > 1)
@@ -62,22 +77,28 @@ public class StructureHelper : MonoBehaviour
                                 blockedPositions.AddRange(tempPositionsBlocked);
                                 foreach(var pos in tempPositionsBlocked)
                                 {
-                                    structureDictionary.Add(pos, building);
+                                    if(!structureDictionary.ContainsKey(pos)){
+                                        structureDictionary.Add(pos, building);
+                                    }
                                 }
+                                return;
                             }
-                            break;
                         }
+                        break;
                     }
                     else
                     {
                         if (pipe.houseSpawnAuthorized)
                         {
                             var building = SpawnPrefab(buildingTypes[i].GetPrefab(), freeSpot.Key, rotation);
-                            building.GetComponent<House>().pipe = pipe;
+                            House house = building.GetComponent<House>();
+                            house.pipe = pipe;
+                            house.dirtyPipe = FindClosestDirtyPipe(freeSpot.Key);
                             structureDictionary.Add(freeSpot.Key, building);
-                        }                        
+                            return;
+                        }         
+                        break;               
                     }
-                    break;
                 }
             }
         }
@@ -148,6 +169,26 @@ public class StructureHelper : MonoBehaviour
         var sorted = pipes.OrderBy(obj => (position - transform.position).sqrMagnitude);
         Pipe closest = sorted.First();
         return closest;
+    }
+
+    public Pipe FindClosestDirtyPipe(Vector3 position)
+    {
+        List<Pipe> pipes = pipeManager.GetDirtyPipes();
+        if(pipes.Count == 0) return null;
+        // This orders the list so the closest object will be the very first entry
+        var sorted = pipes.OrderBy(obj => (position - transform.position).sqrMagnitude);
+        Pipe closest = sorted.First();
+        return closest;
+    }
+
+    public void UpdateAllPipes()
+    {
+        foreach (var structure in structureDictionary)
+        {
+            House house = structure.Value.GetComponent<House>();
+            house.pipe = FindClosestPipe(structure.Key);
+            house.dirtyPipe = FindClosestDirtyPipe(structure.Key);
+        }
     }
 
     private Dictionary<Vector3Int, Direction> FindFreeSpacesAroundRoad(List<Vector3Int> roadPositions)

@@ -10,7 +10,7 @@ public class Pipe : MonoBehaviour
     public int effectiveVolume;
     public int spawnVolumeLimit = 10;
     private float spawnTimer;
-    private float spawnConditionTimeLimit = 1.0f;
+    private float spawnConditionTimeLimit = 0.5f;
     public List<Intersection> intersections = new List<Intersection>();
     public Vector3 Position 
     { 
@@ -80,6 +80,18 @@ public class Pipe : MonoBehaviour
         if(effectiveVolume - Amount > 0)
         {
             effectiveVolume -= Amount;
+            return true;
+        }else
+        {
+            return false;
+        }
+    }
+
+    public bool AddWater(int Amount)
+    {
+        if(effectiveVolume + Amount <= maxVolume)
+        {
+            effectiveVolume += Amount;
             return true;
         }else
         {
