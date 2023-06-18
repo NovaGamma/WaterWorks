@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 public class PipeManager : MonoBehaviour
 {
     public GameObject pipe;
@@ -186,10 +187,11 @@ public class PipeManager : MonoBehaviour
 
     public bool CheckPositionIsInsideCollider(Vector3 position)
     {
-        var collidersObj = gameObject.GetComponentsInChildren<BoxCollider>(true);
-        for (var index = 0; index < collidersObj.Length; index++)
+        List<BoxCollider> boxCollidersList = pipes
+        .SelectMany(go => go.GetComponentsInChildren<BoxCollider>(true))
+        .ToList();
+        foreach (var colliderItem in boxCollidersList)
         {
-            var colliderItem = collidersObj[index];
             if(!colliderItem.enabled){
                 colliderItem.enabled = true;
                 if(colliderItem.bounds.Contains(position))
