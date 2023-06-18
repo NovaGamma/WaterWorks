@@ -26,34 +26,6 @@ public class WaterManager : MonoBehaviour
         }
     }
 
-    public int OverflowSystem(int addedQuantity, Intersection origin, Pipe pipe) {
-        if (pipe.effectiveVolume + addedQuantity <= pipe.maxVolume) {
-            pipe.effectiveVolume += addedQuantity;
-            return 0;
-        } else if (pipe.effectiveVolume < pipe.maxVolume) {
-            addedQuantity = pipe.effectiveVolume + addedQuantity % pipe.maxVolume;
-            pipe.effectiveVolume = pipe.maxVolume;
-            if (addedQuantity == 0) {
-                return 0;
-            }
-        }
-        Intersection otherIntersection = pipe.intersections[0] == origin ? pipe.intersections[0] : pipe.intersections[1];
-        List<Pipe> neighbors =  (List<Pipe>) (from p in otherIntersection.pipes where p != pipe select p);
-        while (addedQuantity > 0 && neighbors.Count() > 0){
-            List<(Pipe, int)> map = new List<(Pipe, int)>();
-            foreach (Pipe neighbor in neighbors) {
-                map.Add((neighbor, OverflowSystem(addedQuantity / neighbors.Count(), otherIntersection, neighbor)));
-            }
-            neighbors = (List<Pipe>) (from data in map where data.Item2 == 0 select data.Item1);
-            int remainingQuantity = 0;
-            foreach ((Pipe neighbor, int remaining) in map) {
-                remainingQuantity += remaining;
-            }
-            addedQuantity = remainingQuantity;
-        }
-        return addedQuantity;
-    }
-
     void SmoothingSystem() {
         List<PipeData> copy = this.CopyPipesData();
         foreach(Pipe pipe in pipes) {
@@ -64,16 +36,27 @@ public class WaterManager : MonoBehaviour
                 int heightCoefficent = (int) neighborDifferentPoint.gameObject.transform.position.y - (int) selfDifferentPoint.gameObject.transform.position.y;
                 if (pipe.effectiveVolume > neighbor.effectiveVolume && heightCoefficent == 0){
                     int result = (pipe.effectiveVolume - neighbor.effectiveVolume) / (neighbors.Count() + 1);
-                    foreach (PipeData p in copy) {
-                        if(p.id == pipe.gameObject.GetInstanceID()) {
-                            p.effectiveVolume -= result;
+                    if (neighbor.effectiveVolume + result > neighbor.maxVolume) {
+                        foreach (PipeData p in copy) {
+                            if(p.id == pipe.gameObject.GetInstanceID()) {
+                                p.effectiveVolume -= neighbor.maxVolume - neighbor.effectiveVolume;
+                            }
+                            if(p.id == neighbor.gameObject.GetInstanceID()) {
+                                p.effectiveVolume = neighbor.maxVolume;
+                            }
                         }
-                        if(p.id == neighbor.gameObject.GetInstanceID()) {
-                            p.effectiveVolume += result;
+                    } else {
+                        foreach (PipeData p in copy) {
+                            if(p.id == pipe.gameObject.GetInstanceID()) {
+                                p.effectiveVolume -= result;
+                            }
+                            if(p.id == neighbor.gameObject.GetInstanceID()) {
+                                p.effectiveVolume += result;
+                            }
                         }
                     }
                 }
-                if (heightCoefficent <0) {
+                if (heightCoefficent < 0) {
                     if (neighbor.effectiveVolume + pipe.effectiveVolume > neighbor.maxVolume) {
                         foreach (PipeData p in copy) {
                             if(p.id == pipe.gameObject.GetInstanceID()) {

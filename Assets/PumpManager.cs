@@ -39,10 +39,10 @@ public class PumpManager : MonoBehaviour
         GameObject intersectionObject = (GameObject) Instantiate (intersection, position + new Vector3(0, 0, 0.5f), Quaternion.Euler (0,0,0), transform);
         GameObject pumpObject = (GameObject) Instantiate (pump, position, Quaternion.Euler (0, 0, 0), transform);
         pumpObject.GetComponent<Pump>().intersection = intersectionObject.GetComponent<Intersection>();
+        pumps.Add(pumpObject);
+        this.flipMouseClick();
         pumpObject.GetComponent<Visualizer>().startingPosition = position;
         urbanGenerationManager.SetVisualizerAttributes(pumpObject.GetComponent<Visualizer>());
-        pumps.Add(pumpObject);
-        flipMouseClick();
     }
 
     public List<Vector3Int> GetPumpsPositions()
