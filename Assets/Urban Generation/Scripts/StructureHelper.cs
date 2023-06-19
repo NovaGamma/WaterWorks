@@ -165,20 +165,14 @@ public class StructureHelper : MonoBehaviour
     {
         List<Pipe> pipes = pipeManager.GetPipes();
         if(pipes.Count == 0) return null;
-        // This orders the list so the closest object will be the very first entry
-        var sorted = pipes.OrderBy(obj => (position - transform.position).sqrMagnitude);
-        Pipe closest = sorted.First();
-        return closest;
+        return pipes.OrderBy(pipe => Vector3.Distance(pipe.transform.position, position)).FirstOrDefault();;
     }
 
     public Pipe FindClosestDirtyPipe(Vector3 position)
     {
         List<Pipe> pipes = pipeManager.GetDirtyPipes();
         if(pipes.Count == 0) return null;
-        // This orders the list so the closest object will be the very first entry
-        var sorted = pipes.OrderBy(obj => (position - transform.position).sqrMagnitude);
-        Pipe closest = sorted.First();
-        return closest;
+        return pipes.OrderBy(pipe => Vector3.Distance(pipe.transform.position, position)).FirstOrDefault();;
     }
 
     public void UpdateAllPipes()
