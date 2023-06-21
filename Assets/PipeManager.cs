@@ -66,7 +66,11 @@ public class PipeManager : MonoBehaviour
         Vector3 to = toRay.point;
         GameObject intersectionFrom;
         GameObject intersectionTo;
-        if (fromRay.collider.gameObject.tag == "Intersection") {
+        if(fromRay.collider.gameObject.tag == "Pump") {
+            Debug.Log("Pump");
+            Debug.Log(fromRay.collider.gameObject);
+            intersectionFrom = fromRay.collider.gameObject.GetComponent<Pump>().intersection.gameObject;
+        } else if (fromRay.collider.gameObject.tag == "Intersection") {
             intersectionFrom = fromRay.collider.gameObject;
         } else if (fromRay.collider.gameObject.tag == "Pipe") {
             intersectionFrom = SplitPipe(from, fromRay.collider.gameObject);
@@ -74,7 +78,9 @@ public class PipeManager : MonoBehaviour
             intersectionFrom = (GameObject) Instantiate (intersection, from, Quaternion.Euler (0,0,0), transform);
         }
 
-        if (toRay.collider.gameObject.tag == "Intersection") {
+        if(toRay.collider.gameObject.tag == "Pump") {
+            intersectionTo = toRay.collider.gameObject.GetComponent<Intersection>().gameObject;
+        } else if (toRay.collider.gameObject.tag == "Intersection") {
             intersectionTo = toRay.collider.gameObject;
         } else if (toRay.collider.gameObject.tag == "Pipe") {
             intersectionTo = SplitPipe(to, toRay.collider.gameObject);
@@ -90,7 +96,9 @@ public class PipeManager : MonoBehaviour
         Vector3 to = toRay.point;
         GameObject intersectionFrom;
         GameObject intersectionTo;
-        if (fromRay.collider.gameObject.tag == "Intersection") {
+        if(fromRay.collider.gameObject.tag == "Pump") {
+            return;
+        } else if (fromRay.collider.gameObject.tag == "Intersection") {
             intersectionFrom = fromRay.collider.gameObject;
         } else if (fromRay.collider.gameObject.tag == "DirtyPipe") {
             intersectionFrom = SplitDirtyPipe(from, fromRay.collider.gameObject);
@@ -98,7 +106,9 @@ public class PipeManager : MonoBehaviour
             intersectionFrom = (GameObject) Instantiate (intersection, from, Quaternion.Euler (0,0,0), transform);
         }
 
-        if (toRay.collider.gameObject.tag == "Intersection") {
+        if(toRay.collider.gameObject.tag == "Pump") {
+            return;
+        } else if (toRay.collider.gameObject.tag == "Intersection") {
             intersectionTo = toRay.collider.gameObject;
         } else if (toRay.collider.gameObject.tag == "DirtyPipe") {
             intersectionTo = SplitPipe(to, toRay.collider.gameObject);

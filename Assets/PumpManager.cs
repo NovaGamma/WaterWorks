@@ -35,13 +35,13 @@ public class PumpManager : MonoBehaviour
     }
 
     public void CreatePump(RaycastHit ray) {
-        if(ray.collider.gameObject.tag != "Water"){
-            return;
-        }
+        //if(ray.collider.gameObject.tag != "Water"){
+        //    return;
+        //}
         Vector3 position = ray.point;
-        GameObject intersectionObject = (GameObject) Instantiate (intersection, position + new Vector3(0, 0, 0.5f), Quaternion.Euler (0,0,0), transform);
+        //GameObject intersectionObject = (GameObject) Instantiate (intersection, position + new Vector3(0, 0, 0.5f), Quaternion.Euler (0,0,0), transform);
         GameObject pumpObject = (GameObject) Instantiate (pump, position, Quaternion.Euler (0, 0, 0), transform);
-        pumpObject.GetComponent<Pump>().intersection = intersectionObject.GetComponent<Intersection>();
+        //pumpObject.GetComponent<Pump>().intersection = pumpObject.GetComponentInChildren<Intersection>();
         pumps.Add(pumpObject);
         this.flipMouseClick();
         pumpObject.GetComponent<Visualizer>().startingPosition = position;
