@@ -156,12 +156,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4795629779766158191}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed05bc84c33aa62438f2933213f21886, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e45ca9a4d6763f4eb653a7774dcbb42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   pipe: {fileID: 0}
-  consumeTime: 2
+  dirtyPipe: {fileID: 0}
   consumeAmount: 5
+  wastewaterAmount: 5
 --- !u!1 &8620303926414660047
 GameObject:
   m_ObjectHideFlags: 0
