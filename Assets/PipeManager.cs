@@ -93,7 +93,7 @@ public class PipeManager : MonoBehaviour
         if (fromRay.collider.gameObject.tag == "Intersection") {
             intersectionFrom = fromRay.collider.gameObject;
         } else if (fromRay.collider.gameObject.tag == "DirtyPipe") {
-            intersectionFrom = SplitPipe(from, fromRay.collider.gameObject);
+            intersectionFrom = SplitDirtyPipe(from, fromRay.collider.gameObject);
         } else {
             intersectionFrom = (GameObject) Instantiate (intersection, from, Quaternion.Euler (0,0,0), transform);
         }
@@ -168,6 +168,24 @@ public class PipeManager : MonoBehaviour
         splitPipe1.GetComponent<Pipe>().effectiveVolume = pipeObject.effectiveVolume;
         splitPipe2.GetComponent<Pipe>().effectiveVolume = pipeObject.effectiveVolume;
         pipes.Remove(pipeObject);
+        foreach(Intersection intersection in intersections) {
+            intersection.pipes.Remove(pipeObject);
+        }
+        Destroy(pipe);
+        return newIntersection;
+    }
+
+    public GameObject SplitDirtyPipe(Vector3 position, GameObject pipe) {
+        GameObject newIntersection = (GameObject) Instantiate (intersection, position, Quaternion.Euler (0,0,0), transform);
+        Pipe pipeObject = pipe.GetComponent<Pipe>();
+        List<Intersection> intersections = pipeObject.intersections;
+        GameObject splitPipe1 = InstantiateDirtyPipe(newIntersection, intersections[0].gameObject);
+        GameObject splitPipe2 = InstantiateDirtyPipe(newIntersection, intersections[1].gameObject);
+        newIntersection.gameObject.GetComponent<Intersection>().pipes.Add(splitPipe1.GetComponent<Pipe>());
+        newIntersection.gameObject.GetComponent<Intersection>().pipes.Add(splitPipe2.GetComponent<Pipe>());
+        splitPipe1.GetComponent<Pipe>().effectiveVolume = pipeObject.effectiveVolume;
+        splitPipe2.GetComponent<Pipe>().effectiveVolume = pipeObject.effectiveVolume;
+        dirtyPipes.Remove(pipeObject);
         foreach(Intersection intersection in intersections) {
             intersection.pipes.Remove(pipeObject);
         }
