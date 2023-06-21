@@ -7,9 +7,10 @@ TagManager:
   - Pipe
   - Intersection
   - Pump
+  - Content
+  - DirtyPipe
   - Water
   - MapLimit
-  - DirtyPipe
   layers:
   - Default
   - TransparentFX
