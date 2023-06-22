@@ -38,4 +38,13 @@ public class EpurationManager : MonoBehaviour
         epurationStations.Add(epurationObject);
         this.flipMouseClick();
     }
+
+    public List<Epuration> GetEpurationPlants() {
+        List<Epuration> epurationPlants = new List<Epuration>();
+        foreach (var epurationPlant in epurationStations)
+        {
+            epurationPlants.Add(epurationPlant.GetComponent<Epuration>());
+        }
+        return epurationPlants;
+    }
 }
