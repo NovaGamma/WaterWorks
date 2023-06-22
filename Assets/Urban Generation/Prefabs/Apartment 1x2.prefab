@@ -161,8 +161,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pipe: {fileID: 0}
   dirtyPipe: {fileID: 0}
-  consumeAmount: 5
-  wastewaterAmount: 5
+  consumeAmount: 2
+  wastewaterAmount: 2
+  population: 8
+  revenu: 1
 --- !u!1 &8620303926414660047
 GameObject:
   m_ObjectHideFlags: 0

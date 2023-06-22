@@ -22,6 +22,7 @@ public class TimeManager : MonoBehaviour
     [Header("Tick Setting")]
     public int TickMinutesIncrease = 10;
     public float TimeBetweenTicks = 1;
+    public float accelerator = 1f;
     private float currentTimeBetweenTicks = 0;
 
     public static UnityAction<DateTime> OnDateTimeChanged;
@@ -40,7 +41,7 @@ public class TimeManager : MonoBehaviour
         if(!pause){
             currentTimeBetweenTicks += Time.deltaTime;
 
-            if (currentTimeBetweenTicks >= TimeBetweenTicks)
+            if (currentTimeBetweenTicks >= TimeBetweenTicks * accelerator)
             {
                 currentTimeBetweenTicks = 0;
                 Tick();
@@ -59,9 +60,21 @@ public class TimeManager : MonoBehaviour
         OnDateTimeChanged?.Invoke(DateTime);
     }
 
-    public void PauseOrResume()
+    public void Pause()
     {
-        pause = !pause;
+        pause = true;
     }
+    public void Resume()
+    {
+        pause = false;
+        accelerator = 1f;
+    }
+
+    public void Accelerate()
+    {
+        pause = false;
+        accelerator = 0.25f;
+    }
+
 }
 

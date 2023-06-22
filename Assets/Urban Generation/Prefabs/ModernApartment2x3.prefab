@@ -158,5 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pipe: {fileID: 0}
   dirtyPipe: {fileID: 0}
-  consumeAmount: 5
-  wastewaterAmount: 5
+  consumeAmount: 3
+  wastewaterAmount: 3
+  population: 12
+  revenu: 3
