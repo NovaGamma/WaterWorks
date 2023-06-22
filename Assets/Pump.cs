@@ -6,20 +6,22 @@ using UnityEngine;
 public class Pump : MonoBehaviour
 {
     public Intersection intersection;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
+    public void ProduceWater() {
         List<Pipe> pipes = intersection.pipes;
         if(pipes.Count == 1){
             OverflowSystem(10, intersection, pipes[0]);
         }
     }
+
+    // Update is called once per frame
+    /*void Update()
+    {
+        List<Pipe> pipes = intersection.pipes;
+        if(pipes.Count == 1){
+            OverflowSystem(10, intersection, pipes[0]);
+        }
+    }*/
 
     public int OverflowSystem(int addedQuantity, Intersection origin, Pipe pipe) {
         Debug.Log(pipe.GetInstanceID());

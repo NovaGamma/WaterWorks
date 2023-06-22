@@ -54,4 +54,14 @@ public class PumpManager : MonoBehaviour
         }
         return pumpsPositions;
     }
+
+    public List<Pump> GetPumps()
+    {
+        List<Pump> pumpsList = new List<Pump>();
+        foreach (var pump in pumps)
+        {
+            pumpsList.Add(pump.GetComponent<Pump>());
+        }
+        return pumpsList;
+    }
 }
