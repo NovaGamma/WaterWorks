@@ -8,14 +8,9 @@ public class House : MonoBehaviour
     public Pipe dirtyPipe;
     public int consumeAmount = 5;
     public int wastewaterAmount = 5;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+
+    public void ConsumeWater()
     {
         if(pipe.ConsumeWater(consumeAmount))
         {
@@ -25,6 +20,10 @@ public class House : MonoBehaviour
         {
             Debug.Log("Not enough water in Pipe");
         }
+    }
+    
+    public void ProduceWasteWater()
+    {
         if (dirtyPipe is not null)
         {
             if(dirtyPipe.AddWater(wastewaterAmount))

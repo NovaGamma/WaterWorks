@@ -15,12 +15,6 @@ public class StructureHelper : MonoBehaviour
     private float time = 0.0f;
 
     private void Update() {
-        
-        time += Time.deltaTime;
-        if(time >= spawnTimer){
-            PlaceStructureAroundRoad(roadHelper.GetRoadPositions());
-            time = 0.0f;
-        }
         if(pipeManager.modifiedPipes)
         {
             Debug.Log("Updated pipes");
@@ -28,9 +22,10 @@ public class StructureHelper : MonoBehaviour
             Invoke("UpdateAllPipes", 1f);
         }
     }
-    public void PlaceStructureAroundRoad(List<Vector3Int> roadPositions)
+
+    public void PlaceStructureAroundRoad()
     {
-        Debug.Log("Try to spawn a building");
+        List<Vector3Int> roadPositions = roadHelper.GetRoadPositions();
         Dictionary<Vector3Int, Direction> freeEstateSpots = FindFreeSpacesAroundRoad(roadPositions);
         List<Vector3Int> blockedPositions = new List<Vector3Int>();
         foreach (var freeSpot in freeEstateSpots)
@@ -205,5 +200,18 @@ public class StructureHelper : MonoBehaviour
             }
         }
         return freeSpaces;
+    }
+
+    public List<House> GetHouses()
+    {
+        HashSet<House> uniqueHouses = new HashSet<House>();
+        foreach (var pair in structureDictionary)
+        {
+            if (!uniqueHouses.Contains(pair.Value.GetComponent<House>()))
+            {
+                uniqueHouses.Add(pair.Value.GetComponent<House>());
+            }
+        }
+        return uniqueHouses.ToList<House>();
     }
 }

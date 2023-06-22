@@ -35,9 +35,10 @@ public class Visualizer : MonoBehaviour
     private void Start()
     {
         maxSpawnLength = Length * 2 * lsystem.iterationLimit;
+        TimeManager.OnDateTimeChanged += UpdateDateTime;
     }
 
-    private void Update() {
+    private void UpdateDateTime(DateTime dateTime) {
         int randomIndex = UnityEngine.Random.Range(1, 4);
         var sequence = lsystem.GenerateSentence();
         if(randomIndex == 1 && !blockedDirections.Contains(Direction.Up)){

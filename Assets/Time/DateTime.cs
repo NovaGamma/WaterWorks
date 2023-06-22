@@ -101,6 +101,16 @@ public struct DateTime
     }
 
     // Checks
+    public bool isMidnight()
+    {
+        return hour == 0;
+    }
+
+    public bool isHour(int _hour)
+    {
+        return hour == _hour;
+    }
+
     public bool isNight()
     {
         return hour > 21 || hour < 6;
