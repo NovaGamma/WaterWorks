@@ -6,7 +6,6 @@ public class PumpManager : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject pump;
-    public GameObject intersection;
     public UrbanGenerationManager urbanGenerationManager;
     private List<GameObject> pumps = new List<GameObject>();
     public bool mouseClick = false;
@@ -39,9 +38,7 @@ public class PumpManager : MonoBehaviour
             return;
         }
         Vector3 position = ray.point;
-        //GameObject intersectionObject = (GameObject) Instantiate (intersection, position + new Vector3(0, 0, 0.5f), Quaternion.Euler (0,0,0), transform);
         GameObject pumpObject = (GameObject) Instantiate (pump, position, Quaternion.Euler (0, 0, 0), transform);
-        //pumpObject.GetComponent<Pump>().intersection = pumpObject.GetComponentInChildren<Intersection>();
         pumps.Add(pumpObject);
         this.flipMouseClick();
         pumpObject.GetComponent<Visualizer>().startingPosition = position;
