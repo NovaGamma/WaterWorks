@@ -11,6 +11,7 @@ TagManager:
   - DirtyPipe
   - Water
   - MapLimit
+  - EpurationStation
   layers:
   - Default
   - TransparentFX

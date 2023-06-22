@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028353, g: 0.22571383, b: 0.30692253, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -336,7 +336,7 @@ MonoBehaviour:
   dirtyPipe: {fileID: 7533103379373925314, guid: 7c9cca53fc0d82345a2f608f8ec40b88, type: 3}
   pipes: []
   dirtyPipes: []
-  intersection: {fileID: 2070403031101860431, guid: e28ad6b6cbf50654ab0d72d794232ba2, type: 3}
+  intersection: {fileID: 1480722251256325368, guid: dcb2c8793c21389458a92bfad6ca8358, type: 3}
   mouseClick: 0
   firstClick: 0
   type: 
@@ -533,7 +533,7 @@ GameObject:
   - component: {fileID: 691109518}
   m_Layer: 0
   m_Name: Lake_1
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -750,7 +750,7 @@ GameObject:
   - component: {fileID: 956805694}
   m_Layer: 0
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -878,8 +878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c31a9f7c53fcd34093c9938a3c20e46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pump: {fileID: 6636556601494284232, guid: a9fb79e40b3950144972977fc6bb9ce7, type: 3}
-  intersection: {fileID: 2070403031101860431, guid: e28ad6b6cbf50654ab0d72d794232ba2, type: 3}
+  pump: {fileID: 8595206159397114193, guid: 9df53c488cf9fff49adda30f842da1b8, type: 3}
   urbanGenerationManager: {fileID: 2133449995}
   mouseClick: 0
 --- !u!4 &965962582
@@ -895,7 +894,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &990187308
 GameObject:
@@ -945,7 +944,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1068090373
 PrefabInstance:
@@ -1044,7 +1043,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5290625015286172967, guid: 892109fab7ddac0449fd81e7d33a77b0, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5290625015286172967, guid: 892109fab7ddac0449fd81e7d33a77b0, type: 3}
       propertyPath: m_AnchorMax.x
@@ -1152,7 +1151,7 @@ Transform:
   - {fileID: 956805698}
   - {fileID: 278220456}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1209384281
 GameObject:
@@ -1202,7 +1201,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1241464060
 GameObject:
@@ -1406,7 +1405,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1514442707
 GameObject:
@@ -1451,7 +1450,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1620438735
 GameObject:
@@ -1550,11 +1549,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f8089deff91b4a19aa40bf85da99927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 1620438737}
-  zoomStep: 0
-  minCamSize: 0
-  maxCamSize: 0
-  dragOrigin: {x: 0, y: 0, z: 0}
 --- !u!1 &1834747573
 GameObject:
   m_ObjectHideFlags: 0
@@ -1794,13 +1788,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1924529017}
   m_LocalRotation: {x: 0.69687927, y: 0, z: 0, w: 0.7171885}
-  m_LocalPosition: {x: -10, y: 1, z: 311}
+  m_LocalPosition: {x: -10, y: -130.3, z: -100.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1620438738}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1924529019
 MonoBehaviour:
@@ -1822,6 +1816,52 @@ MonoBehaviour:
   newZoom: {x: 0, y: 0, z: 0}
   dragStartPosition: {x: 0, y: 0, z: 0}
   dragCurrentPosition: {x: 0, y: 0, z: 0}
+--- !u!1 &1948752309
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1948752311}
+  - component: {fileID: 1948752310}
+  m_Layer: 0
+  m_Name: EpurationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1948752310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948752309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20574c57cb90d6e49a8519683772d083, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  epurationStation: {fileID: 5331984481990676651, guid: d367950427459c34681f6ea7aa81462c, type: 3}
+  mouseClick: 0
+--- !u!4 &1948752311
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948752309}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -69.00861, y: -139.36304, z: -331.16772}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2071573456
 GameObject:
   m_ObjectHideFlags: 0
@@ -1949,7 +1989,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2134975165
 GameObject:
