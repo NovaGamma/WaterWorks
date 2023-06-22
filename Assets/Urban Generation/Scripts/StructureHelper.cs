@@ -205,11 +205,13 @@ public class StructureHelper : MonoBehaviour
     public List<House> GetHouses()
     {
         HashSet<House> uniqueHouses = new HashSet<House>();
-        foreach (var pair in structureDictionary)
-        {
-            if (!uniqueHouses.Contains(pair.Value.GetComponent<House>()))
+        if (structureDictionary.Count > 0) {
+            foreach (var pair in structureDictionary)
             {
-                uniqueHouses.Add(pair.Value.GetComponent<House>());
+                if (!uniqueHouses.Contains(pair.Value.GetComponent<House>()))
+                {
+                    uniqueHouses.Add(pair.Value.GetComponent<House>());
+                }
             }
         }
         return uniqueHouses.ToList<House>();

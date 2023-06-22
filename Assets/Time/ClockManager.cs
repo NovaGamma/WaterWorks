@@ -13,6 +13,7 @@ public class ClockManager : MonoBehaviour
         TimeManager.OnDateTimeChanged += UpdateDateTime;
     }
 
+    // Update every hour
     private void UpdateDateTime(DateTime dateTime)
     {
         List<House> houses = structureHelper.GetHouses();

@@ -90,7 +90,7 @@ public class PipeManager : MonoBehaviour
             case "EpurationStation":
                 return;
             case "Pump":
-                intersectionTo = toRay.collider.gameObject.GetComponent<Intersection>().gameObject;
+                intersectionTo = toRay.collider.gameObject.GetComponent<Pump>().intersection.gameObject;
                 break;
             case "Pipe":
                 intersectionTo = SplitPipe(to, toRay.collider.gameObject);

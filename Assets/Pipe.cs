@@ -24,7 +24,7 @@ public class Pipe : MonoBehaviour
     void Start()
     {
         BoxCollider boxCollider = transform.gameObject.AddComponent<BoxCollider>();
-        boxCollider.size = new Vector3(30f, 2f, 30f);
+        boxCollider.size = new Vector3(30f, 2f, 110f);
         boxCollider.enabled = false;
         this.maxVolume = 100;
     }

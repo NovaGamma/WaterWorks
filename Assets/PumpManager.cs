@@ -34,7 +34,7 @@ public class PumpManager : MonoBehaviour
     }
 
     public void CreatePump(RaycastHit ray) {
-        if(ray.collider.gameObject.tag != "Water"){
+        if(ray.collider.gameObject.tag != "PumpArea"){
             return;
         }
         Vector3 position = ray.point;
