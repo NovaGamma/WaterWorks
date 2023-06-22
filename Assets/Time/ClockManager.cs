@@ -59,7 +59,7 @@ public class ClockManager : MonoBehaviour
         }
 
         // Place a new house depending on hour
-        if(dateTime.isHour(6) || dateTime.isHour(12)) structureHelper.PlaceStructureAroundRoad();
+        if(dateTime.isHour(6) || dateTime.isHour(12) || dateTime.isHour(18)) structureHelper.PlaceStructureAroundRoad();
 
         if(dateTime.isMidnight()) UpdateMoney();
         UpdateMoneyText();
