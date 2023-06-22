@@ -7,6 +7,7 @@ public class ClockManager : MonoBehaviour
     public StructureHelper structureHelper;
     public PipeManager pipeManager;
     public PumpManager pumpManager;
+    public EpurationManager epurationManager;
     private bool tempCanSpawnHouses = true;
     private int previousTotalNumDay = 1;
     private void OnEnable() {
@@ -19,6 +20,7 @@ public class ClockManager : MonoBehaviour
         List<House> houses = structureHelper.GetHouses();
         List<Pump> pumps = pumpManager.GetPumps();
         List<Pipe> normalPipes = pipeManager.GetPipes();
+        List<Epuration> epurationPlants = epurationManager.GetEpurationPlants();
 
         foreach (Pump pump in pumps)
         {
@@ -28,6 +30,10 @@ public class ClockManager : MonoBehaviour
         {
             house.ConsumeWater();
             house.ProduceWasteWater();
+        }
+
+        foreach (Epuration epuration in epurationPlants) {
+            epuration.cleanWater();
         }
         foreach (Pipe pipe in normalPipes)
         {
