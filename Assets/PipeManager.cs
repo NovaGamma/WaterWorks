@@ -66,26 +66,43 @@ public class PipeManager : MonoBehaviour
         Vector3 to = toRay.point;
         GameObject intersectionFrom;
         GameObject intersectionTo;
-        if(fromRay.collider.gameObject.tag == "Pump") {
-            Debug.Log("Pump");
-            Debug.Log(fromRay.collider.gameObject);
-            intersectionFrom = fromRay.collider.gameObject.GetComponent<Pump>().intersection.gameObject;
-        } else if (fromRay.collider.gameObject.tag == "Intersection") {
-            intersectionFrom = fromRay.collider.gameObject;
-        } else if (fromRay.collider.gameObject.tag == "Pipe") {
-            intersectionFrom = SplitPipe(from, fromRay.collider.gameObject);
-        } else {
-            intersectionFrom = (GameObject) Instantiate (intersection, from, Quaternion.Euler (0,0,0), transform);
+
+        switch(fromRay.collider.gameObject.tag) {
+            case "EpurationStation":
+                return;
+            case "Pump":
+                intersectionFrom = fromRay.collider.gameObject.GetComponent<Pump>().intersection.gameObject;
+                break;
+            case "Pipe":
+                intersectionFrom = SplitPipe(from, fromRay.collider.gameObject);
+                break;
+            case "Intersection":
+                intersectionFrom = fromRay.collider.gameObject;
+                break;
+            case "DirtyPipe":
+                return;
+            default:
+                intersectionFrom = (GameObject) Instantiate (intersection, from, Quaternion.Euler (0,0,0), transform);
+                break;
         }
 
-        if(toRay.collider.gameObject.tag == "Pump") {
-            intersectionTo = toRay.collider.gameObject.GetComponent<Intersection>().gameObject;
-        } else if (toRay.collider.gameObject.tag == "Intersection") {
-            intersectionTo = toRay.collider.gameObject;
-        } else if (toRay.collider.gameObject.tag == "Pipe") {
-            intersectionTo = SplitPipe(to, toRay.collider.gameObject);
-        } else {
-            intersectionTo = (GameObject) Instantiate (intersection, to, Quaternion.Euler (0,0,0), transform);
+        switch(toRay.collider.gameObject.tag) {
+            case "EpurationStation":
+                return;
+            case "Pump":
+                intersectionTo = toRay.collider.gameObject.GetComponent<Intersection>().gameObject;
+                break;
+            case "Pipe":
+                intersectionTo = SplitPipe(to, toRay.collider.gameObject);
+                break;
+            case "Intersection":
+                intersectionTo = toRay.collider.gameObject;
+                break;
+            case "DirtyPipe":
+                return;
+            default:
+                intersectionTo = (GameObject) Instantiate (intersection, to, Quaternion.Euler (0,0,0), transform);
+                break;
         }
 
         InstantiatePipe(intersectionFrom, intersectionTo);
@@ -96,24 +113,42 @@ public class PipeManager : MonoBehaviour
         Vector3 to = toRay.point;
         GameObject intersectionFrom;
         GameObject intersectionTo;
-        if(fromRay.collider.gameObject.tag == "Pump") {
-            return;
-        } else if (fromRay.collider.gameObject.tag == "Intersection") {
-            intersectionFrom = fromRay.collider.gameObject;
-        } else if (fromRay.collider.gameObject.tag == "DirtyPipe") {
-            intersectionFrom = SplitDirtyPipe(from, fromRay.collider.gameObject);
-        } else {
-            intersectionFrom = (GameObject) Instantiate (intersection, from, Quaternion.Euler (0,0,0), transform);
+        switch(fromRay.collider.gameObject.tag) {
+            case "EpurationStation":
+                intersectionFrom = fromRay.collider.gameObject.GetComponent<Epuration>().intersection.gameObject;
+                break;
+            case "Pump":
+                return;
+            case "Pipe":
+                return;
+            case "Intersection":
+                intersectionFrom = fromRay.collider.gameObject;
+                break;
+            case "DirtyPipe":
+                intersectionFrom = SplitDirtyPipe(from, fromRay.collider.gameObject);
+                break;
+            default:
+                intersectionFrom = (GameObject) Instantiate (intersection, from, Quaternion.Euler (0,0,0), transform);
+                break;
         }
 
-        if(toRay.collider.gameObject.tag == "Pump") {
-            return;
-        } else if (toRay.collider.gameObject.tag == "Intersection") {
-            intersectionTo = toRay.collider.gameObject;
-        } else if (toRay.collider.gameObject.tag == "DirtyPipe") {
-            intersectionTo = SplitPipe(to, toRay.collider.gameObject);
-        } else {
-            intersectionTo = (GameObject) Instantiate (intersection, to, Quaternion.Euler (0,0,0), transform);
+        switch(toRay.collider.gameObject.tag) {
+            case "EpurationStation":
+                intersectionTo = toRay.collider.gameObject.GetComponent<Epuration>().gameObject;
+                break;
+            case "Pump":
+                return;
+            case "Pipe":
+                return;
+            case "Intersection":
+                intersectionTo = toRay.collider.gameObject;
+                break;
+            case "DirtyPipe":
+                intersectionTo = SplitPipe(to, toRay.collider.gameObject);
+                break;
+            default:
+                intersectionTo = (GameObject) Instantiate (intersection, to, Quaternion.Euler (0,0,0), transform);
+                break;
         }
 
         InstantiateDirtyPipe(intersectionFrom, intersectionTo);
