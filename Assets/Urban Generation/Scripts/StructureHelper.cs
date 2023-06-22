@@ -12,7 +12,6 @@ public class StructureHelper : MonoBehaviour
     public Dictionary<Vector3Int, GameObject> structureDictionary = new Dictionary<Vector3Int, GameObject>();
     public int intervalSpawn = 1;
     public float spawnTimer = 2.0f;
-    private float time = 0.0f;
 
     private void Update() {
         if(pipeManager.modifiedPipes)
@@ -208,9 +207,11 @@ public class StructureHelper : MonoBehaviour
         if (structureDictionary.Count > 0) {
             foreach (var pair in structureDictionary)
             {
-                if (!uniqueHouses.Contains(pair.Value.GetComponent<House>()))
-                {
-                    uniqueHouses.Add(pair.Value.GetComponent<House>());
+                if (pair.Value != null){
+                    if (!uniqueHouses.Contains(pair.Value.GetComponent<House>()))
+                    {
+                        uniqueHouses.Add(pair.Value.GetComponent<House>());
+                    }
                 }
             }
         }

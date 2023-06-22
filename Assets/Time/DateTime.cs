@@ -160,8 +160,7 @@ public struct DateTime
     // To String
     public override string ToString()
     {
-        return $"Date: {DateToString()} Month: {month.ToString()} Time: {TimeToString()} " +
-            $"\n Total Days: {totalNumDays} | Total Weeks: {totalNumWeeks}";
+        return $"{TimeToString()} {DateToString()}";
     }
 
     public string DateToString()

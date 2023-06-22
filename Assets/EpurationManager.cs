@@ -8,11 +8,9 @@ public class EpurationManager : MonoBehaviour
     public GameObject epurationStation;
     private List<GameObject> epurationStations = new List<GameObject>();
     public bool mouseClick = false;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
+    public ClockManager clock;
+    public int epurationStationPrice = 10;
 
     // Update is called once per frame
     void Update()
@@ -33,9 +31,12 @@ public class EpurationManager : MonoBehaviour
     }
 
     public void CreateEpurationStation(RaycastHit ray) {
-        Vector3 position = ray.point;
-        GameObject epurationObject = (GameObject) Instantiate (epurationStation, position, Quaternion.Euler (0, 0, 0), transform);
-        epurationStations.Add(epurationObject);
+        if(clock.money >= epurationStationPrice){
+            Vector3 position = ray.point;
+            GameObject epurationObject = (GameObject) Instantiate (epurationStation, position, Quaternion.Euler (0, 0, 0), transform);
+            epurationStations.Add(epurationObject);
+            clock.money -= epurationStationPrice;
+        }
         this.flipMouseClick();
     }
 }

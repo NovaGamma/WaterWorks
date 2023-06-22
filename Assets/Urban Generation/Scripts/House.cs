@@ -8,6 +8,8 @@ public class House : MonoBehaviour
     public Pipe dirtyPipe;
     public int consumeAmount = 5;
     public int wastewaterAmount = 5;
+    public int population = 4;
+    public int revenu = 1;
 
 
     public void ConsumeWater()

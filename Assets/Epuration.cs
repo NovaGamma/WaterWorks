@@ -14,7 +14,8 @@ public class Epuration : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int toRemove = 20 / intersection.pipes.Count;
+        int toRemove = 0;
+        if(intersection.pipes.Count != 0) toRemove = 20 / intersection.pipes.Count;
         foreach (Pipe pipe in intersection.pipes) {
             if(pipe.effectiveVolume >= toRemove) {
                 pipe.effectiveVolume -= toRemove;
