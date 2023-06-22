@@ -233,7 +233,7 @@ Transform:
   m_GameObject: {fileID: 278220455}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 130.71838, y: 130.71838, z: 130.71838}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1188953090}
@@ -625,8 +625,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 691109517}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.6018534, y: 8.702523, z: -16.09591}
-  m_LocalScale: {x: 1.0726326, y: 1.0726326, z: 0.9339861}
+  m_LocalPosition: {x: 2.6018534, y: -239, z: -433.95004}
+  m_LocalScale: {x: 71.16337, y: 12.654641, z: 7.2071495}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1188953090}
@@ -842,8 +842,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 956805693}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.9018536, y: 8.562523, z: -16.145912}
-  m_LocalScale: {x: 1.0989995, y: 1, z: 1}
+  m_LocalPosition: {x: 6, y: 9, z: -304}
+  m_LocalScale: {x: 134.94101, y: 21.834324, z: 14.281177}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1188953090}
@@ -1505,7 +1505,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 144.3724
   orthographic: 0
   orthographic size: 1000
   m_Depth: -1
@@ -1531,7 +1531,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1620438735}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 73, y: -372, z: -198}
+  m_LocalPosition: {x: 73, y: -372, z: -292}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1817,9 +1817,11 @@ MonoBehaviour:
   cameraTransform: {fileID: 1620438738}
   movementSpeed: 1
   movementTime: 5
-  newPosition: {x: 0, y: -10, z: 10}
-  zoomAmount: {x: 0, y: 0, z: 0}
+  newPosition: {x: 0, y: 0, z: 0}
+  zoomAmount: {x: 0, y: -5, z: 5}
   newZoom: {x: 0, y: 0, z: 0}
+  dragStartPosition: {x: 0, y: 0, z: 0}
+  dragCurrentPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &2071573456
 GameObject:
   m_ObjectHideFlags: 0
