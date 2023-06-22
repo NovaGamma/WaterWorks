@@ -34,7 +34,7 @@ public class PumpManager : MonoBehaviour
     }
 
     public void CreatePump(RaycastHit ray) {
-        if(ray.collider.gameObject.tag != "Water"){
+        if(ray.collider.gameObject.tag != "PumpArea"){
             return;
         }
         Vector3 position = ray.point;
@@ -53,5 +53,15 @@ public class PumpManager : MonoBehaviour
             pumpsPositions.Add(Vector3Int.RoundToInt(pump.transform.position));
         }
         return pumpsPositions;
+    }
+
+    public List<Pump> GetPumps()
+    {
+        List<Pump> pumpsList = new List<Pump>();
+        foreach (var pump in pumps)
+        {
+            pumpsList.Add(pump.GetComponent<Pump>());
+        }
+        return pumpsList;
     }
 }

@@ -12,6 +12,7 @@ TagManager:
   - Water
   - MapLimit
   - EpurationStation
+  - PumpArea
   layers:
   - Default
   - TransparentFX

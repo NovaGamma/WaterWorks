@@ -129,5 +129,5 @@ MonoBehaviour:
   pipeManager: {fileID: 0}
   roadHelper: {fileID: 0}
   structureHelper: {fileID: 0}
-  blockedDirections: 
+  blockedDirections: 010000000200000003000000
   startingPosition: {x: 0, y: 0, z: 0}
