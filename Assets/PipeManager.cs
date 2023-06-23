@@ -134,7 +134,7 @@ public class PipeManager : MonoBehaviour
 
         switch(toRay.collider.gameObject.tag) {
             case "EpurationStation":
-                intersectionTo = toRay.collider.gameObject.GetComponent<Epuration>().gameObject;
+                intersectionTo = toRay.collider.gameObject.GetComponent<Epuration>().intersection.gameObject;
                 break;
             case "Pump":
                 return;

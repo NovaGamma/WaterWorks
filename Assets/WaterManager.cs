@@ -11,6 +11,7 @@ public class WaterManager : MonoBehaviour
     // Start is called before the first frame update
     public PipeManager pipeManager;
     List<Pipe> pipes;
+    List<Pipe> dirtyPipes;
 
     void Start()
     {
@@ -22,12 +23,17 @@ public class WaterManager : MonoBehaviour
     {
         pipes = pipeManager.pipes;
         for(int i=0; i<10; i++){
-            this.SmoothingSystem();
+            this.SmoothingSystem(pipes);
+        }
+
+        dirtyPipes = pipeManager.dirtyPipes;
+        for(int i=0; i<10; i++){
+            this.SmoothingSystem(dirtyPipes);
         }
     }
 
-    void SmoothingSystem() {
-        List<PipeData> copy = this.CopyPipesData();
+    void SmoothingSystem(List<Pipe> pipes) {
+        List<PipeData> copy = this.CopyPipesData(pipes);
         foreach(Pipe pipe in pipes) {
             List<Pipe> neighbors = pipe.GetNeighbors();
             foreach(Pipe neighbor in neighbors){
@@ -89,7 +95,7 @@ public class WaterManager : MonoBehaviour
         }
     }
 
-    List<PipeData> CopyPipesData() {
+    List<PipeData> CopyPipesData(List<Pipe> pipes) {
         List<PipeData> datas = new List<PipeData>();
         foreach(Pipe pipe in pipes) {
             datas.Add(pipe.ExportData());
