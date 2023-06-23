@@ -10,7 +10,7 @@ public class Pump : MonoBehaviour
     public void ProduceWater() {
         List<Pipe> pipes = intersection.pipes;
         if(pipes.Count == 1){
-            OverflowSystem(10, intersection, pipes[0]);
+            OverflowSystem(20, intersection, pipes[0]);
         }
     }
 
