@@ -27,8 +27,6 @@ public class SpecialBuildingManager : MonoBehaviour
     public bool waterCastleMouseClick = false;
     public int waterCastlePrice = 10;
 
-    public ClockManager clock;
-
     // Update is called once per frame
     void Update()
     {
@@ -71,11 +69,11 @@ public class SpecialBuildingManager : MonoBehaviour
     }
 
     public void CreateReservoir(RaycastHit ray) {
-        if(clock.money >= reservoirPrice){
+        if(ClockManager.money >= reservoirPrice){
             Vector3 position = ray.point;
             GameObject reservoirObject = (GameObject) Instantiate (reservoir, position, Quaternion.Euler (0, 0, 0), transform);
             reservoirs.Add(reservoirObject);
-            clock.money -= reservoirPrice;
+            ClockManager.money -= reservoirPrice;
         }
         this.flipReservoirMouseClick();
     }
@@ -85,11 +83,11 @@ public class SpecialBuildingManager : MonoBehaviour
     }
 
     public void CreateSewerReject(RaycastHit ray) {
-        if(clock.money >= sewerRejectPrice){
+        if(ClockManager.money >= sewerRejectPrice){
             Vector3 position = ray.point;
             GameObject sewerRejectObject = (GameObject) Instantiate (sewerReject, position, Quaternion.Euler (0, 0, 0), transform);
             sewerRejects.Add(sewerRejectObject);
-            clock.money -= sewerRejectPrice;
+            ClockManager.money -= sewerRejectPrice;
         }
         this.flipSewerRejectMouseClick();
     }
@@ -99,11 +97,11 @@ public class SpecialBuildingManager : MonoBehaviour
     }
 
     public void CreateTreatmentStation(RaycastHit ray) {
-        if(clock.money >= treatmentStationPrice){
+        if(ClockManager.money >= treatmentStationPrice){
             Vector3 position = ray.point;
             GameObject treatmentStationObject = (GameObject) Instantiate (treatmentStation, position, Quaternion.Euler (0, 0, 0), transform);
             treatmentStations.Add(treatmentStationObject);
-            clock.money -= treatmentStationPrice;
+            ClockManager.money -= treatmentStationPrice;
         }
         this.flipTreatmentStationMouseClick();
     }
@@ -113,11 +111,11 @@ public class SpecialBuildingManager : MonoBehaviour
     }
 
     public void CreateWaterCastle(RaycastHit ray) {
-        if(clock.money >= waterCastlePrice){
+        if(ClockManager.money >= waterCastlePrice){
             Vector3 position = ray.point;
             GameObject waterCastleObject = (GameObject) Instantiate (waterCastle, position, Quaternion.Euler (0, 0, 0), transform);
             waterCastles.Add(waterCastleObject);
-            clock.money -= waterCastlePrice;
+            ClockManager.money -= waterCastlePrice;
         }
         this.flipWaterCastleMouseClick();
     }

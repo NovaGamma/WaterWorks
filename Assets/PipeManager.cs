@@ -15,6 +15,9 @@ public class PipeManager : MonoBehaviour
     public bool firstClick = false;
     public String type;
     public bool modifiedPipes = false;
+
+    public int pipePrice = 1;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,6 +27,9 @@ public class PipeManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (ClockManager.money < pipePrice) {
+            this.mouseClick = false; //might break everything
+        }
         if(this.mouseClick) {
             if (Input.GetMouseButtonDown(0)) {
                 RaycastHit hit;
@@ -35,8 +41,10 @@ public class PipeManager : MonoBehaviour
                     } else {
                         if(this.type == "Pipe") {
                             this.CreatePipe(this.click1, hit);
+                            ClockManager.money -= pipePrice;
                         } else {
                             this.CreateDirtyPipe(this.click1, hit);
+                            ClockManager.money -= pipePrice;
                         }
                         this.modifiedPipes = true;
                         this.mouseClick = false;

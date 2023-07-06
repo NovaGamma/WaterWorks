@@ -9,8 +9,6 @@ public class PumpManager : MonoBehaviour
     public UrbanGenerationManager urbanGenerationManager;
     private List<GameObject> pumps = new List<GameObject>();
     public bool mouseClick = false;
-
-    public ClockManager clock;
     public int pumpPrice = 5;
 
     // Update is called once per frame
@@ -35,11 +33,12 @@ public class PumpManager : MonoBehaviour
         if(ray.collider.gameObject.tag != "PumpArea"){
             return;
         }
-        if(clock.money < pumpPrice) return;
+        if(ClockManager.money < pumpPrice) return;
         Vector3 position = ray.point;
         GameObject pumpObject = (GameObject) Instantiate (pump, position, Quaternion.Euler (0, 0, 0), transform);
         pumps.Add(pumpObject);
-        clock.money -= pumpPrice;
+        ClockManager.money -= pumpPrice;
+        QuestManager.pumpNb += 1;
         this.flipMouseClick();
         pumpObject.GetComponent<Visualizer>().startingPosition = position;
         urbanGenerationManager.SetVisualizerAttributes(pumpObject.GetComponent<Visualizer>());

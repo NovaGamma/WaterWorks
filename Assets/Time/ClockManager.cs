@@ -10,7 +10,9 @@ public class ClockManager : MonoBehaviour
     public PumpManager pumpManager;
     public EpurationManager epurationManager;
 
-    public int money = 200;
+    public static int money = 200;
+
+    public static int population = 0;
 
     public TextMeshProUGUI  waterUI;
     public TextMeshProUGUI  moneyUI;
@@ -121,7 +123,7 @@ public class ClockManager : MonoBehaviour
     public void UpdatePopulationText()
     {
         List<House> houses = structureHelper.GetHouses();
-        int population = 0;
+        population = 0;
         foreach (var house in houses)
         {
             population += house.population;
