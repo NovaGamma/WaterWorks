@@ -24,12 +24,10 @@ public class ongletController : MonoBehaviour,
     // Start is called before the first frame update
     void Start()
     {
-        Barre = GameObject.Find("Barrebas");
-        if (selected == index)
+        if (index == 0)
         {
             this.GetComponent<Image>().sprite = Selected;
             this.GetComponent<Image>().color = new Vector4(255,255,255,255);
-            Barre.GetComponent<ongletsController>().changeContent(index);
         }
     }
 

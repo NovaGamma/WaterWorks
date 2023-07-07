@@ -26,7 +26,6 @@ public class ItemsController : MonoBehaviour
     public Sprite PressedBackground;
 
     public GameObject BubbleInfo;
-    public GameObject Clock;
 
     public int Layer = 0;
 

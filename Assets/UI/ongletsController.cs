@@ -15,6 +15,7 @@ public class ongletsController : MonoBehaviour
         {
             content.SetActive(false);
         }
+        changeContent(0);
     }
 
     // Update is called once per frame
